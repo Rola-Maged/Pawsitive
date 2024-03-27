@@ -1,1 +1,0 @@
-router.post('/signup',AuthController.signup)
