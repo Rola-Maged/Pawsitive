@@ -1,33 +1,17 @@
-const router = require("express").Router();
-const User = require("../models/login.model")
+const AuthController = require("../controllers/AuthController")
+const express = require("express");
+const router = express.Router();
 
 
-router.route("/").get((req,res)=>{
-    User.find()
-    .then(users => res.json(users))
-    .catch(err => res.status(400).json("Error: "+ err));
-});
+router.post("/signup", AuthController.signup)
+router.post("/signin", AuthController.signin)
 
 
-router.route("/add").post((req,res)=>{
-    const name = req.body.name;
-    const password = req.body.password;
-    const newName = new User(name)
-    const newPass = new User(password)
+const {isSignedIn}=require("../controllers/AuthController");
+router.get('/testauthroute',isSignedIn,(req,res)=>{
+    res.send("A protected route")
+    res.json(req.auth)
+    })
 
 
-
-
-
-    newName.save()
-    .then(() => res.json("Name added"))
-    .catch(err => res.status(400).json("Error: "+ err));
-
-
-    newPass.save()
-    .then(() => res.json("Pass added"))
-    .catch(err => res.status(400).json("Error: "+ err));
-});
-
-
-module.exports = router;
+module.exports = router
