@@ -1,1 +1,0 @@
-const AuthController=require("../controllers/Auth.js")
