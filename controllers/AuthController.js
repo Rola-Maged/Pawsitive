@@ -3,7 +3,8 @@ const jwt = require("jsonwebtoken")
 const {expressjwt} = require("express-jwt")
 const bcrypt = require("bcrypt")
 const dotenv = require("dotenv")
-const sendEmail = require("../utils/sendEmail")
+const Joi = require("joi")
+// const sendEmail = require("../utils/sendEmail")
 dotenv.config();
 const express = require("express")
 
@@ -45,6 +46,95 @@ exports.signup = async(req,res)=>{
     }
     
 } 
+
+exports.signUp = async (req, res) => {
+  try {
+    const { username, password, email, address, phone, taxRegister, offerings } = req.body;
+
+    // Check If The Input Fields are Valid
+    if (!username || !password || !email || !address || !phone || !taxRegister || !offerings  ) {
+      return res
+        .status(400)
+        .json({ message: "Please Input Username and Password" });
+    }
+
+    // Check If User Exists In The Database
+    const existingUser = await User.findOne({ username });
+
+    if (existingUser) {
+      return res.status(400).json({ message: "User Already Exists" });
+    }
+
+    // Hash The User's Password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Save The User To The Database
+    const newUser = new User({
+      username,
+      password: hashedPassword,
+      email,
+      address,
+      phone,
+      taxRegister,
+      offerings,
+    });
+
+    await newUser.save();
+
+    return res
+      .status(201)
+      .json({ message: "User Created Successfully", newUser });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({ message: "Error creating user" });
+  }
+};
+
+
+
+exports.vetsignUp = async (req, res) => {
+  try {
+    const { username, password, email, address, phone, syndicateCard } = req.body;
+
+    // Check If The Input Fields are Valid
+    if (!username || !password || !email || !address || !phone || !syndicateCard  ) {
+      return res
+        .status(400)
+        .json({ message: "Please Input Username and Password" });
+    }
+
+    // Check If User Exists In The Database
+    const existingUser = await User.findOne({ username });
+
+    if (existingUser) {
+      return res.status(400).json({ message: "User Already Exists" });
+    }
+
+    // Hash The User's Password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Save The User To The Database
+    const newUser = new User({
+      username,
+      password: hashedPassword,
+      email,
+      address,
+      phone,
+      syndicateCard
+    });
+
+    await newUser.save();
+
+    return res
+      .status(201)
+      .json({ message: "User Created Successfully", newUser });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({ message: "Error creating user" });
+  }
+};
 
 exports.signin = async(req, res)=>{
     try{
@@ -130,7 +220,33 @@ exports.resetpassword = async(req,res)=>{
 }
    
 
-        
+exports.resetPassword = async(req,res)=>{
+  try {
+    const schema = Joi.object({ email: Joi.string().email().required() });
+    const { error } = schema.validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const user = await User.findOne({ email: req.body.email });
+    if (!user)
+        return res.status(400).send("user with given email doesn't exist");
+
+    let token = await Token.findOne({ userId: user._id });
+    if (!token) {
+        token = await new Token({
+            userId: user._id,
+            token: crypto.randomBytes(32).toString("hex"),
+        }).save();
+    }
+
+    const link = `${process.env.BASE_URL}/password-reset/${user._id}/${token.token}`;
+    await sendEmail(user.email, "Password reset", link);
+
+    res.send("password reset link sent to your email account");
+} catch (error) {
+    res.send("An error occured");
+    console.log(error);
+}}
+
         
   
 

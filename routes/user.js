@@ -10,11 +10,13 @@ const jwt = require("jsonwebtoken")
 
 
 
-
+router.post("/forgot", AuthController.resetPassword)
 router.post("/token", AuthController.token)
 router.post("/signup",AuthController.signup)
+router.post("/petshopsignup", AuthController.signUp)
+router.post("vetsignup",AuthController.vetsignUp)
 router.post("/signin", AuthController.signin)
-router.post("/forgot", AuthController.forgotpassword, AuthController.resetpassword)
+router.post("/forgotPass", AuthController.forgotpassword, AuthController.resetpassword)
 router.post("/signout", AuthController.signout)
 
 router.post("/post", AuthController.authenticateToken, PostController.addPost)

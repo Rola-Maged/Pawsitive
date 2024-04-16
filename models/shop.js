@@ -2,8 +2,12 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Joi = require("joi");
 
-const userSchema = new Schema({
+const shopSchema = new Schema({
     name: {
+        type: String,
+        required: true,
+    },
+    address: {
         type: String,
         required: true,
     },
@@ -15,32 +19,33 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
-    gender: {
+    phone: {
         type: String,
         required: true,
     },
-    age: {
-        type: Number,
+    taxRegister: {
+        type: String,
         required: true,
     },
-    adress: {
+    offerings: {
         type: String,
         required: true,
     },
 });
 
-const User = mongoose.model("User", userSchema);
+const shop = mongoose.model("shop", shopSchema);
 
-const validate = (user) => {
+const validate = (shop) => {
     const schema = Joi.object({
         name: Joi.string().required(),
         email: Joi.string().email().required(),
         password: Joi.string().required(),
-        gender: Joi.string().required(),
-        age: Joi.number().required(),
-        adress: Joi.string().required(),
+        address: Joi.string().required(),
+        phone: Joi.string().required(),
+        taxRegister: Joi.string().required(),
+        offerings: Joi.string().required(),
     });
-    return schema.validate(user);
+    return schema.validate(shop);
 };
 
-module.exports = { User, validate };
+module.exports = { shop, validate };
