@@ -1,4 +1,3 @@
-const User = require("../models/user")
 const jwt = require("jsonwebtoken")
 const {expressjwt} = require("express-jwt")
 const bcrypt = require("bcrypt")
@@ -7,6 +6,9 @@ const Joi = require("joi")
 // const sendEmail = require("../utils/sendEmail")
 dotenv.config();
 const express = require("express")
+const { user } = require("../models/user")
+const { vet } = require("../models/vet")
+const { shop } = require("../models/shop")
 
 ACCESS_TOKEN_SECRET= "hello"
 REFRESH_TOKEN_SECRET= "helloAgain"
@@ -24,13 +26,13 @@ app.use(express.json())
 
 exports.signup = async(req,res)=>{
     try{
-        const{ name, email, password } = req.body
+        const{ name, email, password, gender, age, adress } = req.body
         
         
-        if(!(email && password)){
+        if(!(email && password && name && gender && age && adress)){
             res.status(400).send("Please enter all fields")
         }
-        const existentUser = await User.findOne({email})
+        const existentUser = await user.findOne({email})
         if(existentUser){
             return res.status(409).send("User already exists, please sign in instead")
         }
@@ -38,8 +40,9 @@ exports.signup = async(req,res)=>{
 
         
         
-        const user = await User.create({name, email, password:encryptPass})
-        res.status(200).json(user)
+        const createUser = await user.create({name, email, password:encryptPass})
+      
+        res.status(200).json(createUser)
     }catch(error){
         res.status(400).json({error})
     
@@ -47,7 +50,7 @@ exports.signup = async(req,res)=>{
     
 } 
 
-exports.signUp = async (req, res) => {
+exports.shopsignup = async (req, res) => {
   try {
     const { username, password, email, address, phone, taxRegister, offerings } = req.body;
 
@@ -55,11 +58,11 @@ exports.signUp = async (req, res) => {
     if (!username || !password || !email || !address || !phone || !taxRegister || !offerings  ) {
       return res
         .status(400)
-        .json({ message: "Please Input the required fields" });
+        .json({ message: "Please Input Username and Password" });
     }
 
     // Check If User Exists In The Database
-    const existingUser = await User.findOne({ username });
+    const existingUser = await shop.findOne({ email });
 
     if (existingUser) {
       return res.status(400).json({ message: "User Already Exists" });
@@ -70,7 +73,7 @@ exports.signUp = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // Save The User To The Database
-    const newUser = new User({
+    const newUser = new shop({
       username,
       password: hashedPassword,
       email,
@@ -101,11 +104,11 @@ exports.vetsignUp = async (req, res) => {
     if (!username || !password || !email || !address || !phone || !syndicateCard  ) {
       return res
         .status(400)
-        .json({ message: "Please Input the required fields" });
+        .json({ message: "Please Input Username and Password" });
     }
 
     // Check If User Exists In The Database
-    const existingUser = await User.findOne({ username });
+    const existingUser = await vet.findOne({ username });
 
     if (existingUser) {
       return res.status(400).json({ message: "User Already Exists" });
@@ -116,7 +119,7 @@ exports.vetsignUp = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // Save The User To The Database
-    const newUser = new User({
+    const newUser = new vet({
       username,
       password: hashedPassword,
       email,
@@ -137,14 +140,32 @@ exports.vetsignUp = async (req, res) => {
 };
 
 exports.signin = async(req, res)=>{
+  
     try{
         const{ email, password } = req.body
-        const user = await User.findOne({ email })
-        if (!user){
+        const checkUser = await user.findOne({ email })
+        const checkShop = await shop.findOne({ email })
+        const checkVet = await vet.findOne({ email })
+        console.log(checkShop)
+        console.log(checkUser)
+        if (!checkUser && !checkShop && !checkVet){
             return res.json({status: 'error', error: 'Invalid username or password'})
         }
-        const comparePass = await bcrypt.compare(password, user.password)
-        if(comparePass){
+        console.log(password)
+        if(checkUser){
+          const comparePass = await bcrypt.compare(password, checkUser.password)
+
+        }else if(checkShop){
+          const comparePass2 = await bcrypt.compare(password, checkShop.password)
+        }else{
+          const comparePass3 = await bcrypt.compare(password, checkVet.password) 
+        }
+        
+        
+        
+        
+
+        if(checkUser){
             const accessToken = jwt.sign({ userId: user.id, username: user.email }, ACCESS_TOKEN_SECRET, { expiresIn: '2m' });
 
   
@@ -159,9 +180,23 @@ exports.signin = async(req, res)=>{
 
               
             
-        }else{
-            return res.json({ status: 'error', error: 'Check the password!!'})
-        } 
+        }else if(checkShop){
+          const accessToken = jwt.sign({ userId: shop.id, username: shop.email }, ACCESS_TOKEN_SECRET, { expiresIn: '2m' });
+
+  
+          const refreshToken = jwt.sign({ userId: shop.id, username: shop.email }, REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
+
+          res.json({ accessToken, refreshToken });
+
+        } else{
+          const accessToken = jwt.sign({ userId: vet.id, username: vet.email }, ACCESS_TOKEN_SECRET, { expiresIn: '2m' });
+
+  
+          const refreshToken = jwt.sign({ userId: vet.id, username: vet.email }, REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
+
+          res.json({ accessToken, refreshToken });
+
+        }
 
 
 
