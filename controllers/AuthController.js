@@ -55,7 +55,7 @@ exports.signUp = async (req, res) => {
     if (!username || !password || !email || !address || !phone || !taxRegister || !offerings  ) {
       return res
         .status(400)
-        .json({ message: "Please Input Username and Password" });
+        .json({ message: "Please Input the required fields" });
     }
 
     // Check If User Exists In The Database
@@ -101,7 +101,7 @@ exports.vetsignUp = async (req, res) => {
     if (!username || !password || !email || !address || !phone || !syndicateCard  ) {
       return res
         .status(400)
-        .json({ message: "Please Input Username and Password" });
+        .json({ message: "Please Input the required fields" });
     }
 
     // Check If User Exists In The Database
