@@ -4,32 +4,26 @@ const Joi = require("joi");
 
 const userSchema = new Schema({
     name: {
-        type: String,
-        required: true,
+        type: String
     },
     email: {
-        type: String,
-        required: true,
+        type: String
     },
     password: {
-        type: String,
-        required: true,
+        type: String
     },
     gender: {
-        type: String,
-        required: true,
+        type: String
     },
     age: {
-        type: Number,
-        required: true,
+        type: Number
     },
     adress: {
-        type: String,
-        required: true,
+        type: String
     },
 });
 
-const User = mongoose.model("User", userSchema);
+const user = mongoose.model("user", userSchema)
 
 const validate = (user) => {
     const schema = Joi.object({
@@ -43,4 +37,4 @@ const validate = (user) => {
     return schema.validate(user);
 };
 
-module.exports = { User, validate };
+module.exports = {user, validate}
