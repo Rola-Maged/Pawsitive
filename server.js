@@ -2,7 +2,9 @@ const express = require("express")
 const mongoose = require("mongoose")
 const app = express()
 const router = require("./routes/user")
+const bodyParser = require("body-parser")
 
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.use(express.json())
