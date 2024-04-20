@@ -4,32 +4,25 @@ const Joi = require("joi");
 
 const shopSchema = new Schema({
     name: {
-        type: String,
-        required: true,
+        type: String
     },
     address: {
-        type: String,
-        required: true,
+        type: String
     },
     email: {
-        type: String,
-        required: true,
+        type: String
     },
     password: {
-        type: String,
-        required: true,
+        type: String
     },
     phone: {
-        type: String,
-        required: true,
+        type: String
     },
     taxRegister: {
-        type: String,
-        required: true,
+        type: String
     },
     offerings: {
-        type: String,
-        required: true,
+        type: String
     },
 });
 
