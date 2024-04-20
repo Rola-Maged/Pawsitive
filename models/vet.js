@@ -3,38 +3,32 @@ const Schema = mongoose.Schema;
 const Joi = require("joi");
 
 const vetSchema = new Schema({
-    name: {
-        type: String,
-        required: true,
+    username: {
+        type: String
     },
     password: {
-        type: String,
-        required: true,
+        type: String
     },
     address: {
-        type: String,
-        required: true,
+        type: String
     },
     email: {
-        type: String,
-        required: true,
+        type: String
     },
     phone: {
-        type: Number,
-        required: true,
+        type: Number
     },
     syndicateCard: {
-        type: String,
-        required: true,
+        type: String
     },
      
 });
 
-const vet = mongoose.model("vet", vetSchema);
+const vet = mongoose.model("Vet", vetSchema);
 
 const validate = (vet) => {
     const schema = Joi.object({
-        name: Joi.string().required(),
+        username: Joi.string().required(),
         email: Joi.string().email().required(),
         address: Joi.string().required(),
         phone: Joi.number().required(),
@@ -44,3 +38,4 @@ const validate = (vet) => {
 };
 
 module.exports = { vet, validate };
+
