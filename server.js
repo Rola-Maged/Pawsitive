@@ -19,8 +19,9 @@ mongoose.connect('mongodb+srv://sherifyanni02:A8WQ1bDXnO219oxz@backenddb.qwaqyzc
 })
   .then(() => {
       console.log("Connected to DB")
-      app.listen(8000, ()=>{
-        console.log("Server is running")
+      const port = process.env.PORT || 8000; 
+      app.listen(port, ()=>{
+      console.log(`Listening on port ${port}...`)
     })
   })
   .catch(()=>{
@@ -28,10 +29,4 @@ mongoose.connect('mongodb+srv://sherifyanni02:A8WQ1bDXnO219oxz@backenddb.qwaqyzc
 
   })
 
-
-
-
-
-
-
-
+   
