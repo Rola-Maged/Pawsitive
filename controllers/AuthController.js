@@ -6,7 +6,7 @@ const Joi = require("joi");
 // const sendEmail = require("../utils/sendEmail")
 dotenv.config();
 const express = require("express");
-const { user, user, user } = require("../models/user");
+const { user} = require("../models/user");
 const { vet } = require("../models/vet");
 const { shop } = require("../models/shop");
 
