@@ -7,10 +7,6 @@ dotenv.config();
 
 
 
-
-
-
-
 exports.addPost = async(req,res)=>{
     try{
         res.json("HELLO USER!")
@@ -18,10 +14,6 @@ exports.addPost = async(req,res)=>{
         console.error(error)
 
 }}
-
-
-
-
 
 
 
