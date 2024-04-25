@@ -1,0 +1,45 @@
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const Joi = require("joi");
+
+const petSchema = new Schema({
+    name: {
+        type: String
+    },
+    ownershipCertificate: {
+        type: String
+    },
+    gender: {
+        type: String
+    },
+    breed: {
+        type: String
+    },
+    age: {
+        type: Number
+    },
+    type: {
+        type: String
+    },
+    vaccination: {
+        type: Number
+    },
+     
+});
+
+const pet = mongoose.model("pet", petSchema);
+
+const validate = (pet) => {
+    const schema = Joi.object({
+        name: Joi.string().required(),
+        ownershipCertificate: Joi.string().required(),
+        gender: Joi.number().required(),
+        age: Joi.string().required(),
+        breed: Joi.string().required(),
+        type: Joi.string().required(),
+        vaccination: Joi.string().required(),
+    });
+    return schema.validate(pet);
+};
+
+module.exports = { pet, validate };
