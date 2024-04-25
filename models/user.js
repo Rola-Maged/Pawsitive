@@ -21,6 +21,9 @@ const userSchema = new Schema({
     adress: {
         type: String
     },
+    phone:{
+        type: Number
+    },
 });
 
 const user = mongoose.model("user", userSchema)
@@ -33,6 +36,7 @@ const validate = (user) => {
         gender: Joi.string().required(),
         age: Joi.number().required(),
         adress: Joi.string().required(),
+        phone: Joi.number().required(),
     });
     return schema.validate(user);
 };

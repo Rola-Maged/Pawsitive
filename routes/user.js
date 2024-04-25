@@ -10,13 +10,7 @@ router.post("/signup", AuthController.signup);
 router.post("/shopsignup", AuthController.shopsignup);
 router.post("/vetsignup", AuthController.vetsignUp);
 router.post("/signin", AuthController.signin);
-router.post(
-  "/forgotPass",
-  AuthController.forgotpassword,
-  AuthController.resetpassword,
-);
-router.post("/signout", AuthController.signout);
-
+router.post( "/forgotPass", AuthController.forgotpassword, AuthController.resetpassword,);
 router.post("/post", AuthController.authenticateToken, PostController.addPost);
 
 module.exports = router;

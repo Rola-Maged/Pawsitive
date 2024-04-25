@@ -20,37 +20,74 @@ require("dotenv").config();
 require("cookie-parser");
 app.use(express.json());
 
+
+
 exports.signup = async (req, res) => {
   try {
-    const { name, email, password, gender, age, adress } = req.body;
-
-    if (!(email && password && name && gender && age && adress)) {
-      res.status(400).send("Please enter all fields");
-    }
-    const existentUser = await user.findOne({ email });
-    if (existentUser) {
-      return res
-        .status(409)
-        .send("User already exists, please sign in instead");
-    }
-    encryptPass = await bcrypt.hash(password, 10);
-
-    const createUser = await user.create({
+    const {
       name,
+      password,
       email,
-      password: encryptPass,
+      address,
+      gender,
+      age,
+      phone,
+    } = req.body;
+
+    // Check If The Input Fields are Valid
+    if (
+      !name ||
+      !password ||
+      !email ||
+      !address ||
+      !gender ||
+      !age    ||
+      !phone
+    ) {
+      return res
+        .status(400)
+        .json({ message: "Please Input the Required Fields" });
+    }
+
+    // Check If User Exists In The Database
+    const existingUser = await user.findOne({ email });
+
+    if (existingUser) {
+      return res.status(400).json({ message: "User Already Exists" });
+    }
+
+    // Hash The User's Password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Save The User To The Database
+    const newUser = new user({
+      name,
+      password: hashedPassword,
+      email,
+      address,
+      age,
+      gender,
+      phone,
     });
 
-    res.status(200).json(createUser);
+    await newUser.save();
+
+    return res
+      .status(201)
+      .json({ message: "User Created Successfully", newUser });
   } catch (error) {
-    res.status(400).json({ error });
+    console.log(error.message);
+    return res.status(500).json({ message: "Error creating user" });
   }
-};
+}; 
+
+
 
 exports.shopsignup = async (req, res) => {
   try {
     const {
-      username,
+      name,
       password,
       email,
       address,
@@ -61,7 +98,7 @@ exports.shopsignup = async (req, res) => {
 
     // Check If The Input Fields are Valid
     if (
-      !username ||
+      !name ||
       !password ||
       !email ||
       !address ||
@@ -71,7 +108,7 @@ exports.shopsignup = async (req, res) => {
     ) {
       return res
         .status(400)
-        .json({ message: "Please Input Username and Password" });
+        .json({ message: "Please Input the Required Fields" });
     }
 
     // Check If User Exists In The Database
@@ -87,7 +124,7 @@ exports.shopsignup = async (req, res) => {
 
     // Save The User To The Database
     const newUser = new shop({
-      username,
+      name,
       password: hashedPassword,
       email,
       address,
@@ -109,12 +146,12 @@ exports.shopsignup = async (req, res) => {
 
 exports.vetsignUp = async (req, res) => {
   try {
-    const { username, password, email, address, phone, syndicateCard } =
+    const { name, password, email, address, phone, syndicateCard } =
       req.body;
 
     // Check If The Input Fields are Valid
     if (
-      !username ||
+      !name ||
       !password ||
       !email ||
       !address ||
@@ -123,11 +160,11 @@ exports.vetsignUp = async (req, res) => {
     ) {
       return res
         .status(400)
-        .json({ message: "Please Input Username and Password" });
+        .json({ message: "Please Input the Required Fields" });
     }
 
     // Check If User Exists In The Database
-    const existingUser = await vet.findOne({ username });
+    const existingUser = await vet.findOne({ email });
 
     if (existingUser) {
       return res.status(400).json({ message: "User Already Exists" });
@@ -139,7 +176,7 @@ exports.vetsignUp = async (req, res) => {
 
     // Save The User To The Database
     const newUser = new vet({
-      username,
+      name,
       password: hashedPassword,
       email,
       address,
@@ -183,13 +220,13 @@ exports.signin = async (req, res) => {
 
     if (checkUser) {
       const accessToken = jwt.sign(
-        { userId: user.id, username: user.email },
+        { userId: user.id, name: user.email },
         ACCESS_TOKEN_SECRET,
         { expiresIn: "2m" },
       );
 
       const refreshToken = jwt.sign(
-        { userId: user.id, username: user.email },
+        { userId: user.id, name: user.email },
         REFRESH_TOKEN_SECRET,
         { expiresIn: "7d" },
       );
@@ -197,13 +234,13 @@ exports.signin = async (req, res) => {
       res.json({ accessToken, refreshToken, checkUser });
     } else if (checkShop) {
       const accessToken = jwt.sign(
-        { userId: shop.id, username: shop.email },
+        { userId: shop.id, name: shop.email },
         ACCESS_TOKEN_SECRET,
         { expiresIn: "2m" },
       );
 
       const refreshToken = jwt.sign(
-        { userId: shop.id, username: shop.email },
+        { userId: shop.id, name: shop.email },
         REFRESH_TOKEN_SECRET,
         { expiresIn: "7d" },
       );
@@ -211,13 +248,13 @@ exports.signin = async (req, res) => {
       res.json({ accessToken, refreshToken, checkShop });
     } else {
       const accessToken = jwt.sign(
-        { userId: vet.id, username: vet.email },
+        { userId: vet.id, name: vet.email },
         ACCESS_TOKEN_SECRET,
         { expiresIn: "2m" },
       );
 
       const refreshToken = jwt.sign(
-        { userId: vet.id, username: vet.email },
+        { userId: vet.id, name: vet.email },
         REFRESH_TOKEN_SECRET,
         { expiresIn: "7d" },
       );
@@ -233,7 +270,7 @@ exports.forgotpassword = async (req, res) => {
   const { email } = req.body;
 
   // Find the user by email (in a real app, this would query a database)
-  const user = await User.findOne({ email });
+  const user = await user.findOne({ email });
 
   if (!user) {
     return res.status(404).json({ error: "User not found" });
@@ -302,24 +339,7 @@ exports.resetPassword = async (req, res) => {
   }
 };
 
-exports.signout = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    User.findByIdAndUpdate(user._id, { token: "" }, { new: true })
-      .then(updatedUser => {
-        if (!updatedUser) {
-          console.log("User not found");
-          return;
-        }
-        console.log("User updated with new token:", updatedUser);
-      })
-      .catch(error => {
-        console.error("Error updating user:", error);
-      });
-  } catch (error) {}
-};
-
+ 
 exports.token = async (req, res) => {
   try {
     const { refreshToken } = req.body;

@@ -16,7 +16,7 @@ const shopSchema = new Schema({
         type: String
     },
     phone: {
-        type: String
+        type: Number
     },
     taxRegister: {
         type: String
@@ -34,7 +34,7 @@ const validate = (shop) => {
         email: Joi.string().email().required(),
         password: Joi.string().required(),
         address: Joi.string().required(),
-        phone: Joi.string().required(),
+        phone: Joi.number().required(),
         taxRegister: Joi.string().required(),
         offerings: Joi.string().required(),
     });

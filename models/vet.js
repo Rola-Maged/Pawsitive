@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const Joi = require("joi");
 
 const vetSchema = new Schema({
-    username: {
+    name: {
         type: String
     },
     password: {
@@ -24,11 +24,11 @@ const vetSchema = new Schema({
      
 });
 
-const vet = mongoose.model("Vet", vetSchema);
+const vet = mongoose.model("vet", vetSchema);
 
 const validate = (vet) => {
     const schema = Joi.object({
-        username: Joi.string().required(),
+        name: Joi.string().required(),
         email: Joi.string().email().required(),
         address: Joi.string().required(),
         phone: Joi.number().required(),
