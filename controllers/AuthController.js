@@ -211,14 +211,13 @@ exports.signin = async (req, res) => {
     const checkShop = await shop.findOne({ email });
     const checkVet = await vet.findOne({ email });
     console.log(checkShop);
-    console.log(checkUser);
-    console.log(checkUser.password)
+    console.log(checkUser); 
     if (!checkUser && !checkShop && !checkVet) {
       return res.json({
         status: "error",
         error: "Invalid username or password",
       });
-    }
+    } 
     console.log(password);
     if (checkUser) {
       const comparePass = await bcrypt.compare(password, checkUser.password);
@@ -299,21 +298,47 @@ exports.forgotpassword = async (req, res) => {
 
   // Find the user by email (in a real app, this would query a database)
   const findUser = await user.findOne({ email });
+  const findUser2 = await  shop.findOne({ email })
+  const findUser3 = await  vet.findOne({ email })
+  console.log(findUser)
+  console.log(findUser2)
+  console.log(findUser3)
 
-  if (!findUser) {
+  if (!findUser && !findUser2 && !findUser3) {
     return res.status(404).json({ error: "User not found" });
   }
 
   // Generate a reset token with user's ID
-  console.log(findUser._id)
-  const resetToken = jwt.sign({ userId: findUser._id }, ACCESS_TOKEN_SECRET, {
-    expiresIn: "1m",
+  console.log(findUser)
+  if(findUser){
+    const resetToken = jwt.sign({ userId: findUser._id }, ACCESS_TOKEN_SECRET, {
+      expiresIn: "5m",
+    });
+    console.log("Reset Token:", resetToken);
+    const mailOptions = {
+      from: 'sherifemad08@gmail.com',
+      to: email,
+      subject: 'Password Reset',
+      text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n`
+          + `Please click on the following link, or paste this into your browser to complete the process:\n\n`
+          + `http://localhost:8000/reset/${resetToken}\n\n`
+          + `If you did not request this, please ignore this email and your password will remain unchanged.\n`
+  };
+  
+  transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+          console.error('Error:', error);
+          return res.status(500).json({ error: 'Failed to send email' });
+      }
+      console.log('Email sent:', info.response);
+      res.json({ message: 'Email sent successfully' });
   });
+  }else if(findUser2){
+    const resetToken = jwt.sign({ userId: findUser2._id }, ACCESS_TOKEN_SECRET, {
+      expiresIn: "5m",
 
-  // Here, you would typically send the reset token through email or another channel
-
+  })
   console.log("Reset Token:", resetToken);
-
   const mailOptions = {
     from: 'sherifemad08@gmail.com',
     to: email,
@@ -332,9 +357,32 @@ transporter.sendMail(mailOptions, (error, info) => {
     console.log('Email sent:', info.response);
     res.json({ message: 'Email sent successfully' });
 });
-  /*
-  return res.json({ message: 'Reset token sent successfully' });
-  */
+}else{
+    const resetToken = jwt.sign({ userId: findUser3._id }, ACCESS_TOKEN_SECRET, {
+      expiresIn: "5m",
+  })
+  console.log("Reset Token:", resetToken);
+  const mailOptions = {
+    from: 'sherifemad08@gmail.com',
+    to: email,
+    subject: 'Password Reset',
+    text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n`
+        + `Please click on the following link, or paste this into your browser to complete the process:\n\n`
+        + `http://localhost:8000/reset/${resetToken}\n\n`
+        + `If you did not request this, please ignore this email and your password will remain unchanged.\n`
+};
+
+transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+        console.error('Error:', error);
+        return res.status(500).json({ error: 'Failed to send email' });
+    }
+    console.log('Email sent:', info.response);
+    res.json({ message: 'Email sent successfully' });
+});
+
+};
+  
 };
 
 
@@ -352,46 +400,43 @@ exports.myReset = async (req, res) => {
 
         // Find user by ID
         const findUser = await user.findById(userId);
+        const findUser2 = await shop.findById(userId);
+        const findUser3 = await vet.findById(userId)
 
-        if (!findUser) {
+        if (!findUser && !findUser2 && !findUser3) {
             return res.status(400).json({ error: 'User not found' });
         }
 
-        // Update user's password
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
-        findUser.password = hashedPassword;
-        await findUser.save();
+        if(findUser){
+          const hashedPassword = await bcrypt.hash(newPassword, 10);
+          findUser.password = hashedPassword;
+          await findUser.save();
+  
+          res.json({ message: 'Password reset successful' });
+         
+          
+        }else if(findUser2){
+          const hashedPassword = await bcrypt.hash(newPassword, 10);
+          findUser2.password = hashedPassword;
+          await findUser2.save();
+  
+          res.json({ message: 'Password reset successful' });
 
-        res.json({ message: 'Password reset successful' });
+        }else{
+          const hashedPassword = await bcrypt.hash(newPassword, 10);
+          findUser3.password = hashedPassword;
+          await findUser3.save();
+  
+          res.json({ message: 'Password reset successful' });
+        }
+        // Update user's password
+        
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 };
-
-
-exports.resetPasswords = async (req, res) => {
-  try {
-    const schema = Joi.object({ email: Joi.string().email().required() });
-    const { error } = schema.validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
-    const user = await user.findOne({ email: req.body.email });
-    if (!user)
-      return res.status(400).send("user with given email doesn't exist");
-
-
-    const link = `${process.env.BASE_URL}/password-reset/${user._id}/${req.headers.authorization}`;
-    console.log(link)
-    await sendEmail(user.email, "Password reset", link);
-
-    res.send("password reset link sent to your email account");
-  } catch (error) {
-    res.send("An error occured");
-    console.log(error);
-  }
-};
-
+ 
  
 exports.token = async (req, res) => {
   try {

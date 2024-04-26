@@ -5,7 +5,7 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 
-router.post("/forgot", AuthController.forgotpassword);
+ 
 router.post("/token", AuthController.token);
 router.post("/signup", AuthController.signup);
 router.post("/shopsignup", AuthController.shopsignup);
