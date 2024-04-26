@@ -12,7 +12,7 @@ const orderProductSchema = new Schema({
         required: true,
     },
     date: {
-        type: String,
+        type: Date,
         required: true,
     },
 });
@@ -23,7 +23,7 @@ const validate = (orderProduct) => {
     const schema = Joi.object({
         quantity: Joi.string().required(),
         price: Joi.number().required(),
-        date: Joi.string().required(),
+        date: Joi.date().required(),
     });
     return schema.validate(orderProduct);
 };

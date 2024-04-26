@@ -4,7 +4,7 @@ const Joi = require("joi");
 
 const orderSchema = new Schema({
     date: {
-        type: String,
+        type: Date,
         required: true,
     },
     type: {
@@ -25,7 +25,7 @@ const order = mongoose.model("order", orderSchema);
 
 const validate = (order) => {
     const schema = Joi.object({
-        date: Joi.string().required(),
+        date: Joi.date().required(),
         type: Joi.string().required(),
         quantity: Joi.number().required(),
         status: Joi.string().required(),

@@ -7,6 +7,14 @@ const bookingSchema = new Schema({
         type: Date,
         required: true,
     },
+    status: {
+        type: String,
+        required: true,
+    },
+    verificationNumber: {
+        type: Number,
+        required: true,
+    },
      
     
 });
@@ -15,9 +23,9 @@ const booking = mongoose.model("booking", bookingSchema);
 
 const validate = (booking) => {
     const schema = Joi.object({
-        name: Joi.string().required(),
-        email: Joi.string().email().required(),
-        password: Joi.string().required(),
+        date: Joi.date().required(),
+        status: Joi.string().required(),
+        verificationNumber: Joi.number().required(),
     });
     return schema.validate(booking);
 };
