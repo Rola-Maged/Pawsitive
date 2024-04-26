@@ -370,30 +370,6 @@ exports.myReset = async (req, res) => {
 };
 
 
-/*
-exports.resetpassword = async (req, res) => {
-  const { email, newPassword } = req.body;
-
-  // Verify the reset token
-  jwt.verify(resetToken, ACCESS_TOKEN_SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(401).json({ error: "Invalid or expired token" });
-    }
-
-    // Token is valid, find the user by userId (in a real app, this would query a database)
-    const user = user.findOne({ email });
-
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    // Update the user's password (in a real app, you'd update the database)
-    user.password = newPassword;
-
-    return res.json({ message: "Password updated successfully" });
-  });
-};
-*/
 exports.resetPasswords = async (req, res) => {
   try {
     const schema = Joi.object({ email: Joi.string().email().required() });
