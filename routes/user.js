@@ -16,3 +16,4 @@ router.post("/post", AuthController.authenticateToken, PostController.addPost);
 router.post("/reset/:token", AuthController.myReset)
 
 module.exports = router;
+ //fghcg
