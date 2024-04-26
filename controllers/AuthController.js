@@ -302,7 +302,7 @@ exports.forgotpassword = async (req, res) => {
   const findUser3 = await  vet.findOne({ email })
   console.log(findUser)
   console.log(findUser2)
-  console.log(findUser3)
+  console.log(findUser3);
 
   if (!findUser && !findUser2 && !findUser3) {
     return res.status(404).json({ error: "User not found" });
