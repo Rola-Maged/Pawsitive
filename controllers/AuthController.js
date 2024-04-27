@@ -3,7 +3,7 @@ const { expressjwt } = require("express-jwt");
 const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
 const Joi = require("joi");
-const nodemailer = require("nodemailer")
+const nodemailer = require("nodemailer");
 // const sendEmail = require("../utils/sendEmail")
 dotenv.config();
 const express = require("express");
@@ -22,37 +22,19 @@ require("cookie-parser");
 app.use(express.json());
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  service: "gmail",
   auth: {
-      user: 'sherifemad08@gmail.com', // Your Gmail address
-      pass: 'hhvm tzoj vrfp lcid' // Your Gmail password or App Password
-  }
-})
-
-
+    user: "sherifemad08@gmail.com", // Your Gmail address
+    pass: "hhvm tzoj vrfp lcid", // Your Gmail password or App Password
+  },
+});
 
 exports.signup = async (req, res) => {
   try {
-    const {
-      name,
-      password,
-      email,
-      address,
-      gender,
-      age,
-      phone,
-    } = req.body;
+    const { name, password, email, address, gender, age, phone } = req.body;
 
     // Check If The Input Fields are Valid
-    if (
-      !name ||
-      !password ||
-      !email ||
-      !address ||
-      !gender ||
-      !age    ||
-      !phone
-    ) {
+    if (!name || !password || !email || !address || !gender || !age || !phone) {
       return res
         .status(400)
         .json({ message: "Please Input the Required Fields" });
@@ -89,21 +71,12 @@ exports.signup = async (req, res) => {
     console.log(error.message);
     return res.status(500).json({ message: "Error creating user" });
   }
-}; 
-
-
+};
 
 exports.shopsignup = async (req, res) => {
   try {
-    const {
-      name,
-      password,
-      email,
-      address,
-      phone,
-      taxRegister,
-      offerings,
-    } = req.body;
+    const { name, password, email, address, phone, taxRegister, offerings } =
+      req.body;
 
     // Check If The Input Fields are Valid
     if (
@@ -155,18 +128,10 @@ exports.shopsignup = async (req, res) => {
 
 exports.vetsignUp = async (req, res) => {
   try {
-    const { name, password, email, address, phone, syndicateCard } =
-      req.body;
+    const { name, password, email, address, phone, syndicateCard } = req.body;
 
     // Check If The Input Fields are Valid
-    if (
-      !name ||
-      !password ||
-      !email ||
-      !address ||
-      !phone ||
-      !syndicateCard
-    ) {
+    if (!name || !password || !email || !address || !phone || !syndicateCard) {
       return res
         .status(400)
         .json({ message: "Please Input the Required Fields" });
@@ -211,83 +176,85 @@ exports.signin = async (req, res) => {
     const checkShop = await shop.findOne({ email });
     const checkVet = await vet.findOne({ email });
     console.log(checkShop);
-    console.log(checkUser); 
+    console.log(checkUser);
     if (!checkUser && !checkShop && !checkVet) {
       return res.json({
         status: "error",
         error: "Invalid username or password",
       });
-    } 
+    }
     console.log(password);
     if (checkUser) {
       const comparePass = await bcrypt.compare(password, checkUser.password);
-      if(!comparePass){
-        res.json("Invalid Username or Password")
+      if (!comparePass) {
+        res.json({
+          status: 403,
+          error: "Invalid Username or Password",
+        });
       }
-      
-      if(comparePass){
+
+      if (comparePass) {
         const accessToken = jwt.sign(
           { userId: user.id, name: user.email },
           ACCESS_TOKEN_SECRET,
           { expiresIn: "2m" },
         );
-  
+
         const refreshToken = jwt.sign(
           { userId: user.id, name: user.email },
           REFRESH_TOKEN_SECRET,
           { expiresIn: "7d" },
         );
-  
-        res.json({ accessToken, refreshToken, checkUser });
 
+        res.json({ accessToken, refreshToken, checkUser });
       }
-      
     } else if (checkShop) {
       const comparePass2 = await bcrypt.compare(password, checkShop.password);
-      if(!comparePass2){
-        res.json("Invalid Username or Password")
+      if (!comparePass2) {
+        res.json({
+          status: 403,
+          error: "Invalid Username or Password",
+        });
       }
-      if(comparePass2){
+      if (comparePass2) {
         const accessToken = jwt.sign(
           { userId: shop.id, name: shop.email },
           ACCESS_TOKEN_SECRET,
           { expiresIn: "2m" },
         );
-  
+
         const refreshToken = jwt.sign(
           { userId: shop.id, name: shop.email },
           REFRESH_TOKEN_SECRET,
           { expiresIn: "7d" },
         );
-  
-        res.json({ accessToken, refreshToken, checkShop });
 
+        res.json({ accessToken, refreshToken, checkShop });
       }
-      
     } else {
       const comparePass3 = await bcrypt.compare(password, checkVet.password);
-      if(!comparePass3){
-        res.json("Invalid Username or Password")
+      if (!comparePass3) {
+        res.json({
+          status: 403,
+          error: "Invalid Username or Password",
+        });
       }
-      if(comparePass3){
+      if (comparePass3) {
         const accessToken = jwt.sign(
           { userId: vet.id, name: vet.email },
           ACCESS_TOKEN_SECRET,
           { expiresIn: "2m" },
         );
-  
+
         const refreshToken = jwt.sign(
           { userId: vet.id, name: vet.email },
           REFRESH_TOKEN_SECRET,
           { expiresIn: "7d" },
         );
-  
+
         res.json({ accessToken, refreshToken });
-
       }
-      
     }
-
   } catch (error) {
     console.log(error);
   }
@@ -298,10 +265,10 @@ exports.forgotpassword = async (req, res) => {
 
   // Find the user by email (in a real app, this would query a database)
   const findUser = await user.findOne({ email });
-  const findUser2 = await  shop.findOne({ email })
-  const findUser3 = await  vet.findOne({ email })
-  console.log(findUser)
-  console.log(findUser2)
+  const findUser2 = await shop.findOne({ email });
+  const findUser3 = await vet.findOne({ email });
+  console.log(findUser);
+  console.log(findUser2);
   console.log(findUser3);
 
   if (!findUser && !findUser2 && !findUser3) {
@@ -309,135 +276,137 @@ exports.forgotpassword = async (req, res) => {
   }
 
   // Generate a reset token with user's ID
-  console.log(findUser)
-  if(findUser){
+  console.log(findUser);
+  if (findUser) {
     const resetToken = jwt.sign({ userId: findUser._id }, ACCESS_TOKEN_SECRET, {
       expiresIn: "5m",
     });
     console.log("Reset Token:", resetToken);
     const mailOptions = {
-      from: 'sherifemad08@gmail.com',
+      from: "sherifemad08@gmail.com",
       to: email,
-      subject: 'Password Reset',
-      text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n`
-          + `Please click on the following link, or paste this into your browser to complete the process:\n\n`
-          + `http://localhost:8000/api/reset/${resetToken}\n\n`
-          + `If you did not request this, please ignore this email and your password will remain unchanged.\n`
-  };
-  
-  transporter.sendMail(mailOptions, (error, info) => {
+      subject: "Password Reset",
+      text:
+        `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n` +
+        `Please click on the following link, or paste this into your browser to complete the process:\n\n` +
+        `http://localhost:8000/api/reset/${resetToken}\n\n` +
+        `If you did not request this, please ignore this email and your password will remain unchanged.\n`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-          console.error('Error:', error);
-          return res.status(500).json({ error: 'Failed to send email' });
+        console.error("Error:", error);
+        return res.status(500).json({ error: "Failed to send email" });
       }
-      console.log('Email sent:', info.response);
-      res.json({ message: 'Email sent successfully' });
-  });
-  }else if(findUser2){
-    const resetToken = jwt.sign({ userId: findUser2._id }, ACCESS_TOKEN_SECRET, {
-      expiresIn: "5m",
+      console.log("Email sent:", info.response);
+      res.json({ message: "Email sent successfully" });
+    });
+  } else if (findUser2) {
+    const resetToken = jwt.sign(
+      { userId: findUser2._id },
+      ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: "5m",
+      },
+    );
+    console.log("Reset Token:", resetToken);
+    const mailOptions = {
+      from: "sherifemad08@gmail.com",
+      to: email,
+      subject: "Password Reset",
+      text:
+        `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n` +
+        `Please click on the following link, or paste this into your browser to complete the process:\n\n` +
+        `http://localhost:8000/reset/${resetToken}\n\n` +
+        `If you did not request this, please ignore this email and your password will remain unchanged.\n`,
+    };
 
-  })
-  console.log("Reset Token:", resetToken);
-  const mailOptions = {
-    from: 'sherifemad08@gmail.com',
-    to: email,
-    subject: 'Password Reset',
-    text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n`
-        + `Please click on the following link, or paste this into your browser to complete the process:\n\n`
-        + `http://localhost:8000/reset/${resetToken}\n\n`
-        + `If you did not request this, please ignore this email and your password will remain unchanged.\n`
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("Error:", error);
+        return res.status(500).json({ error: "Failed to send email" });
+      }
+      console.log("Email sent:", info.response);
+      res.json({ message: "Email sent successfully" });
+    });
+  } else {
+    const resetToken = jwt.sign(
+      { userId: findUser3._id },
+      ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: "5m",
+      },
+    );
+    console.log("Reset Token:", resetToken);
+    const mailOptions = {
+      from: "sherifemad08@gmail.com",
+      to: email,
+      subject: "Password Reset",
+      text:
+        `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n` +
+        `Please click on the following link, or paste this into your browser to complete the process:\n\n` +
+        `http://localhost:8000/reset/${resetToken}\n\n` +
+        `If you did not request this, please ignore this email and your password will remain unchanged.\n`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error("Error:", error);
+        return res.status(500).json({ error: "Failed to send email" });
+      }
+      console.log("Email sent:", info.response);
+      res.json({ message: "Email sent successfully" });
+    });
+  }
 };
-
-transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-        console.error('Error:', error);
-        return res.status(500).json({ error: 'Failed to send email' });
-    }
-    console.log('Email sent:', info.response);
-    res.json({ message: 'Email sent successfully' });
-});
-}else{
-    const resetToken = jwt.sign({ userId: findUser3._id }, ACCESS_TOKEN_SECRET, {
-      expiresIn: "5m",
-  })
-  console.log("Reset Token:", resetToken);
-  const mailOptions = {
-    from: 'sherifemad08@gmail.com',
-    to: email,
-    subject: 'Password Reset',
-    text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n`
-        + `Please click on the following link, or paste this into your browser to complete the process:\n\n`
-        + `http://localhost:8000/reset/${resetToken}\n\n`
-        + `If you did not request this, please ignore this email and your password will remain unchanged.\n`
-};
-
-transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-        console.error('Error:', error);
-        return res.status(500).json({ error: 'Failed to send email' });
-    }
-    console.log('Email sent:', info.response);
-    res.json({ message: 'Email sent successfully' });
-});
-
-};
-  
-};
-
 
 exports.myReset = async (req, res) => {
   const resetToken = req.params.token;
-    const newPassword = req.body.newPassword;
-    console.log(newPassword)
+  const newPassword = req.body.newPassword;
+  console.log(newPassword);
 
-    try {
-        // Find user by reset password token and check if it's still valid
-        const decodedToken = jwt.verify(resetToken, ACCESS_TOKEN_SECRET);
-        console.log(decodedToken)
-        const userId = decodedToken.userId;
-        console.log(userId)
+  try {
+    // Find user by reset password token and check if it's still valid
+    const decodedToken = jwt.verify(resetToken, ACCESS_TOKEN_SECRET);
+    console.log(decodedToken);
+    const userId = decodedToken.userId;
+    console.log(userId);
 
-        // Find user by ID
-        const findUser = await user.findById(userId);
-        const findUser2 = await shop.findById(userId);
-        const findUser3 = await vet.findById(userId)
+    // Find user by ID
+    const findUser = await user.findById(userId);
+    const findUser2 = await shop.findById(userId);
+    const findUser3 = await vet.findById(userId);
 
-        if (!findUser && !findUser2 && !findUser3) {
-            return res.status(400).json({ error: 'User not found' });
-        }
-
-        if(findUser){
-          const hashedPassword = await bcrypt.hash(newPassword, 10);
-          findUser.password = hashedPassword;
-          await findUser.save();
-  
-          res.json({ message: 'Password reset successful' });
-         
-          
-        }else if(findUser2){
-          const hashedPassword = await bcrypt.hash(newPassword, 10);
-          findUser2.password = hashedPassword;
-          await findUser2.save();
-  
-          res.json({ message: 'Password reset successful' });
-
-        }else{
-          const hashedPassword = await bcrypt.hash(newPassword, 10);
-          findUser3.password = hashedPassword;
-          await findUser3.save();
-  
-          res.json({ message: 'Password reset successful' });
-        }
-        // Update user's password
-        
-    } catch (error) {
-        console.error('Error:', error);
-        res.status(500).json({ error: 'Internal server error' });
+    if (!findUser && !findUser2 && !findUser3) {
+      return res.status(400).json({ error: "User not found" });
     }
+
+    if (findUser) {
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      findUser.password = hashedPassword;
+      await findUser.save();
+
+      res.json({ message: "Password reset successful" });
+    } else if (findUser2) {
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      findUser2.password = hashedPassword;
+      await findUser2.save();
+
+      res.json({ message: "Password reset successful" });
+    } else {
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      findUser3.password = hashedPassword;
+      await findUser3.save();
+
+      res.json({ message: "Password reset successful" });
+    }
+    // Update user's password
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
- 
- 
+
 exports.token = async (req, res) => {
   try {
     const { refreshToken } = req.body;
