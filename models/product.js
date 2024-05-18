@@ -13,13 +13,13 @@ const productSchema = new Schema({
         type: String,
     },
     price: {
-        type: String,
+        type: Number,
     },
     quantity: {
-        type: String,
+        type: Number,
     },
     rating: {
-        type: String,
+        type: Number,
     },
     review: {
         type: String,
@@ -41,13 +41,7 @@ const productSchema = new Schema({
     subscription: {
         type: String
     },
-    details: {
-        type: String
-    },
     color: {
-        type: String
-    },
-    ownershipCertificate: {
         type: String
     },
     gender: {
@@ -59,13 +53,9 @@ const productSchema = new Schema({
     age: {
         type: Number
     },
-    type: {
+    material: {
         type: String
     },
-    vaccination: {
-        type: Number
-    },
-     
     category: {
         type: ObjectId,
         ref: "category",
@@ -79,21 +69,20 @@ const product = mongoose.model("product", productSchema);
 const validate = (product) => {
     const schema = Joi.object({
         name: Joi.string().required(),
-        code: Joi.string().required(),
+        code: Joi.number().required(),
         details: Joi.string().required(),
         price: Joi.number().required(),
         quantity: Joi.number().required(),
-        rating: Joi.string().required(),
+        rating: Joi.number().required(),
         review: Joi.string().required(),
         type: Joi.string().required(),
         image: Joi.string().required(),
-        name: Joi.string().required(),
-        ownershipCertificate: Joi.string().required(),
-        gender: Joi.number().required(),
-        age: Joi.string().required(),
+        color: Joi.string().required(),
+        subscription: Joi.string().required(),
+        gender: Joi.string().required(),
+        age: Joi.number().required(),
         breed: Joi.string().required(),
-        type: Joi.string().required(),
-        vaccination: Joi.string().required(),
+        material: Joi.string().required(),
         
     });
     return schema.validate(product);
