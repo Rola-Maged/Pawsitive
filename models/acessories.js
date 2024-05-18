@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
+/* const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Joi = require("joi");
 
-const productSchema = new Schema({
+const acessoriesSchema = new Schema({
     name: {
         type: String,
     },
@@ -14,12 +14,14 @@ const productSchema = new Schema({
     },
     price: {
         type: String,
+
     },
     quantity: {
         type: String,
     },
     rating: {
         type: String,
+
     },
     review: {
         type: String,
@@ -38,34 +40,6 @@ const productSchema = new Schema({
         }
  
     },
-    subscription: {
-        type: String
-    },
-    details: {
-        type: String
-    },
-    color: {
-        type: String
-    },
-    ownershipCertificate: {
-        type: String
-    },
-    gender: {
-        type: String
-    },
-    breed: {
-        type: String
-    },
-    age: {
-        type: Number
-    },
-    type: {
-        type: String
-    },
-    vaccination: {
-        type: Number
-    },
-     
     category: {
         type: ObjectId,
         ref: "category",
@@ -74,9 +48,9 @@ const productSchema = new Schema({
     },
 });
 
-const product = mongoose.model("product", productSchema);
+const acessories = mongoose.model("acessories", foodSchema);
 
-const validate = (product) => {
+const validate = (acessories) => {
     const schema = Joi.object({
         name: Joi.string().required(),
         code: Joi.string().required(),
@@ -87,16 +61,9 @@ const validate = (product) => {
         review: Joi.string().required(),
         type: Joi.string().required(),
         image: Joi.string().required(),
-        name: Joi.string().required(),
-        ownershipCertificate: Joi.string().required(),
-        gender: Joi.number().required(),
-        age: Joi.string().required(),
-        breed: Joi.string().required(),
-        type: Joi.string().required(),
-        vaccination: Joi.string().required(),
-        
     });
-    return schema.validate(product);
+    return schema.validate(acessories);
 };
 
-module.exports = { product, validate };
+module.exports = { acessories, validate };
+*/ 

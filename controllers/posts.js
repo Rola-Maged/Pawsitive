@@ -1,8 +1,8 @@
-const Posts=require(". /model/Posts")
+/* const Posts=require(". /model/product")
 
 
 //create 
- exports. createPost=async(req,res)=>{  
+ exports.createPost=async(req,res)=>{  
     const post=new Posts({
     
     title:req.body.title,
@@ -74,4 +74,14 @@ res.json(postsDelete)
 
 }
 }
+*/
+ 
 
+app.get('/categories/:categoryId/products', async (req, res) => {
+    const categoryId = req.params.categoryId;
+
+    // Find the category and populate its products
+    const category = await category.findById(categoryId).populate('product').exec();
+
+    res.json(category.product);
+});
