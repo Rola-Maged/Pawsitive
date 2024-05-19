@@ -13,7 +13,7 @@ require("cookie-parser");
 app.use(express.json());
 
 exports.displayChips = async(req,res)=>{
-    const findAll = await category.find({typeName: "chip"})
+    const findAll = await category.find({typeName: "chip"}).populate('category')
     if(!findAll){
         console.log("Error")
     }else{
@@ -31,7 +31,7 @@ exports.displayFood = async(req,res)=>{
 }
 
 exports.displayAccessory = async(req,res)=>{
-    const findAll = await category.find({typeName: "accessory"})
+    const findAll = await category.find({typeName: "accessory"}).populate('category')
     if(!findAll){
         console.log("Error")
     }else{
@@ -43,10 +43,26 @@ exports.createProduct = async(req,res)=>{
     const { name, code, details, price, quantity, rating, review, type, image, subscription, color, gender, breed, age, material, category } = req.body;
     const newProduct = new product({
         name,
-        
+        code,
+        details,
+        price,
+        quantity,
+        rating,
+        review,
+        type,
+        image,
+        subscription,
+        color,
+        gender,
+        breed,
+        age,
+        material,
+        category,
       });
   
       await newProduct.save();
+
+      res.json(newProduct)
 
 }
 
