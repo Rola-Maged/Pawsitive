@@ -21,4 +21,9 @@ router.post("/reset/:token", AuthController.myReset);
 router.get("/category/chips", CategoriesController.displayChips )
 router.get("/category/food", CategoriesController.displayFood )
 router.get("/category/accessories", CategoriesController.displayAccessory )
+
+
+router.post("/products/create", CategoriesController.createProduct)
+
+
 module.exports = router;

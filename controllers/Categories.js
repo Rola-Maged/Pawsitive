@@ -1,19 +1,9 @@
-const jwt = require("jsonwebtoken");
-const { expressjwt } = require("express-jwt");
-const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
-const Joi = require("joi");
-const nodemailer = require("nodemailer");
-// const sendEmail = require("../utils/sendEmail")
 dotenv.config();
 const express = require("express");
-const { user } = require("../models/user");
-const { vet } = require("../models/vet");
-const { shop } = require("../models/shop");
 const category  = require("../models/category")
+const { product } = require("../models/product")
 
-ACCESS_TOKEN_SECRET = "hello";
-REFRESH_TOKEN_SECRET = "helloAgain";
 
 const app = express();
 
@@ -23,7 +13,7 @@ require("cookie-parser");
 app.use(express.json());
 
 exports.displayChips = async(req,res)=>{
-    const findAll = await category.find({type: "chip"})
+    const findAll = await category.find({typeName: "chip"})
     if(!findAll){
         console.log("Error")
     }else{
@@ -32,7 +22,7 @@ exports.displayChips = async(req,res)=>{
 }
 
 exports.displayFood = async(req,res)=>{
-    const findAll = await category.find({type: "food"})
+    const findAll = await category.find({typeName: "food"})
     if(!findAll){
         console.log("Error")
     }else{
@@ -41,7 +31,7 @@ exports.displayFood = async(req,res)=>{
 }
 
 exports.displayAccessory = async(req,res)=>{
-    const findAll = await category.find({type: "accessory"})
+    const findAll = await category.find({typeName: "accessory"})
     if(!findAll){
         console.log("Error")
     }else{
@@ -49,7 +39,15 @@ exports.displayAccessory = async(req,res)=>{
     }
 }
 
+exports.createProduct = async(req,res)=>{
+    const { name, code, details, price, quantity, rating, review, type, image, subscription, color, gender, breed, age, material, category } = req.body;
+    const newProduct = new product({
+        name,
+        
+      });
+  
+      await newProduct.save();
 
-
+}
 
 
