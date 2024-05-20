@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Joi = require("joi");
+const { ObjectId } = require("mongodb");
 
 const orderSchema = new Schema({
     date: {
@@ -18,6 +19,12 @@ const orderSchema = new Schema({
     status: {
         type: String,
         required: true,
+    },
+    user: {
+        type: ObjectId,
+        ref: "user",
+        required : true
+ 
     },
 });
 

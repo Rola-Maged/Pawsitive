@@ -77,15 +77,7 @@ res.json(postsDelete)
 */
  
 
-app.get('/categories/:categoryId/products', async (req, res) => {
-    const categoryId = req.params.categoryId;
-
-    // Find the category and populate its products
-    const category = await category.findById(categoryId).populate('product').exec();
-
-    res.json(category.product);
-});
-
+  
 // Route to create a new appointment
 app.post("/appointments", (req, res) => {
     const appointment = req.body;
