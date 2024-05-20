@@ -99,5 +99,23 @@ exports.searchAll = async(req,res)=>{
     }
 }
 
+exports.filterProducts = async(req,res)=>{
+    try {
+        const { name, color } = req.query;
+    
+        const filter = {};
+        if (name) filter.name = name;
+        if (color) filter.color = color;
+    
+        
+        const filteredData = await product.find(filter);
+    
+        res.json(filteredData);
+      } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: 'Internal server error' });
+      }
+    
+}
 
 

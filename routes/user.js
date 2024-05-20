@@ -31,5 +31,8 @@ router.post("/products/create", CategoriesController.createProduct)
 //Search API by name of product
 router.get("/search", CategoriesController.searchAll)
 
+//Filter API for Products name + color
+router.get("/filter", CategoriesController.filterProducts)
+
 
 module.exports = router;
