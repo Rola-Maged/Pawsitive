@@ -6,7 +6,7 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 
-
+//Sign up and Sign in and authenticastion (token) with reset and forgot password
 router.post("/token", AuthController.token);
 router.post("/signup", AuthController.signup);
 router.post("/shopsignup", AuthController.shopsignup);
@@ -17,13 +17,19 @@ router.post("/post", AuthController.authenticateToken, PostController.addPost);
 router.post("/reset/:token", AuthController.myReset);
 
 
-
+//Displaying particular category of products
 router.get("/category/chips", CategoriesController.displayChips )
 router.get("/category/food", CategoriesController.displayFood )
 router.get("/category/accessories", CategoriesController.displayAccessory )
 
+//Displaying all products
+router.get("/find", CategoriesController.viewAll)
 
+//Creating Product from Shop's POV
 router.post("/products/create", CategoriesController.createProduct)
+
+//Search API by name of product
+router.get("/search", CategoriesController.searchAll)
 
 
 module.exports = router;

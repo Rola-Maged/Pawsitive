@@ -6,56 +6,74 @@ const { ObjectId } = require("mongodb");
 const productSchema = new Schema({
     name: {
         type: String,
+        required: false,
     },
     code: {
         type: Number,
+        required: false,
     },
     details: {
         type: String,
+        required: false,
     },
     price: {
         type: Number,
+        required: false,
     },
     quantity: {
         type: Number,
+        required: false,
     },
     rating: {
         type: Number,
+        required: false,
     },
     review: {
         type: String,
+        required: false,
     },
     type: {
         type: String,
+        required: false,
     },
     image: {
 
         public_id: {
             type: String,
+            required: false,
         },
  
         url: {
             type: String,
+            required: false,
         }
  
     },
     subscription: {
-        type: String
+        type: String,
+        required: false,
     },
     color: {
-        type: String
+        type: String,
+        required: false,
+
     },
     gender: {
-        type: String
+        type: String,
+        required: false,
+
     },
     breed: {
-        type: String
+        type: String,
+        required: false,
     },
     age: {
-        type: Number
+        type: Number,
+        required: false,
     },
     material: {
-        type: String
+        type: String,
+        required: false,
     },
     category: {
         type: ObjectId,
@@ -66,7 +84,7 @@ const productSchema = new Schema({
 });
 
 const product = mongoose.model("product", productSchema);
-
+/*
 const validate = (product) => {
     const schema = Joi.object({
         name: Joi.string().required(),
@@ -88,5 +106,6 @@ const validate = (product) => {
     });
     return schema.validate(product);
 };
+*/
 
-module.exports = { product, validate };
+module.exports = { product };

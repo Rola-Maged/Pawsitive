@@ -6,9 +6,7 @@ const categorySchema = new Schema({
     name: {
         type: String
     },
-    typeName: {
-        type: String
-    },
+    typeName: ["food", "accessory", "chip"],
 });
 
 
