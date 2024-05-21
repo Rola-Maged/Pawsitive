@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
-const vet  = require("../models/vet")
+const {vet}  = require("../models/vet")
 const  booking  = require("../models/booking")
 const { ObjectId } = require('mongodb')
 
@@ -40,7 +40,7 @@ exports.getVets = async (req, res) => {
 // Get a vet by ID
 exports.getVetById = async (req, res) => {
     try {
-        const singleVet = await vet.findById(req.body.id);
+        const singleVet = await vet.findById(req.params.id);
         if (!singleVet) return res.status(404).json({ message: "Vet not found" });
         res.status(200).json(singleVet);
     } catch (error) {
