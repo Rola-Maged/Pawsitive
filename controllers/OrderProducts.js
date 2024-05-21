@@ -8,6 +8,7 @@ const { ObjectId } = require('mongodb')
 
 
 // Create a new product
+
 exports.createOrderProd= async(req,res)=>{
     const { quantity, price, date, order, product } = req.body;
     const newOrderProduct = new orderProduct({

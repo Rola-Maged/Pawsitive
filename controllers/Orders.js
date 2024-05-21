@@ -1,8 +1,8 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
-const order  = require("../models/order")
-const user  = require("../models/user")
+const {order} = require("../models/order")
+const {user}  = require("../models/user")
 const { ObjectId } = require('mongodb')
 
 
@@ -39,7 +39,7 @@ exports.getOrders = async (req, res) => {
 // Get an order by ID
 exports.getOrderById = async (req, res) => {
     try {
-        const singleOrder = await order.findById(req.body.id);
+        const singleOrder = await order.findById(req.params.id).populate("user");
         if (!singleOrder) return res.status(404).json({ message: "order not found" });
         res.status(200).json(singleOrder);
     } catch (error) {
@@ -52,7 +52,7 @@ exports.updateOrder = async (req, res) => {
     const { date, type, quantity, status, user} = req.body;
     try {
         const updatedOrder = await order.findByIdAndUpdate(
-            req.body.id,
+            req.params.id,
             { date, type, quantity, status, user},
             { new: true }
         );
@@ -66,7 +66,7 @@ exports.updateOrder = async (req, res) => {
 // Delete a product
 exports.deleteOrder = async (req, res) => {
     try {
-        const deletedOrder = await order.findByIdAndDelete(req.body.id);
+        const deletedOrder = await order.findByIdAndDelete(req.params.id);
         if (!deletedOrder) return res.status(404).json({ message: "order not found" });
         res.status(200).json({ message: "order deleted" });
     } catch (error) {

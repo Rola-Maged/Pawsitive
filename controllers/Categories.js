@@ -90,7 +90,7 @@ exports.getProducts = async (req, res) => {
 // Get a product by ID
 exports.getProductById = async (req, res) => {
     try {
-        const singleProduct = await product.findById(req.body.id).populate('category');
+        const singleProduct = await product.findById(req.params.id).populate('category');
         if (!singleProduct) return res.status(404).json({ message: "Product not found" });
         res.status(200).json(singleProduct);
     } catch (error) {
@@ -103,7 +103,7 @@ exports.updateProd = async (req, res) => {
     const { name, code, details, price, quantity, rating, review, type, image, subscription, color, gender, breed, age, material, category } = req.body;
     try {
         const updateProduct = await product.findByIdAndUpdate(
-            req.body.id,
+            req.params.id,
             { name, code, details, price, quantity, rating, review, type, image, subscription, color, gender, breed, age, material, category },
             { new: true }
         );
@@ -117,7 +117,7 @@ exports.updateProd = async (req, res) => {
 // Delete a product
 exports.deleteProd = async (req, res) => {
     try {
-        const deleteProduct = await product.findByIdAndDelete(req.body.id);
+        const deleteProduct = await product.findByIdAndDelete(req.params.id);
         if (!deleteProduct) return res.status(404).json({ message: "Product not found" });
         res.status(200).json({ message: "Product deleted" });
     } catch (error) {
@@ -176,7 +176,7 @@ exports.createCategory = async (req, res) => {
     const { name, typeName } = req.body;
     try {
         const newCategory = new category({ name, typeName });
-        await category.save();
+        await newCategory.save();
         res.status(201).json(newCategory);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -209,7 +209,7 @@ exports.updateCat = async (req, res) => {
     const { name, typeName } = req.body;
     try {
         const updateCategory = await category.findByIdAndUpdate(
-            req.body.id,
+            req.params.id,
             { name, typeName },
             { new: true }
         );
@@ -223,7 +223,7 @@ exports.updateCat = async (req, res) => {
 // Delete a category
 exports.deleteCat = async (req, res) => {
     try {
-        const deleteCategory = await category.findByIdAndDelete(req.body.id);
+        const deleteCategory = await category.findByIdAndDelete(req.params.id);
         if (!deleteCategory) return res.status(404).json({ message: "Category not found" });
         res.status(200).json({ message: "Category deleted" });
     } catch (error) {
