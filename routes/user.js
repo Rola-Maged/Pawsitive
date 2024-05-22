@@ -11,7 +11,7 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 
-//Sign up and Sign in and authenticastion (token) with reset and forgot password
+//Sign up and Sign in and authenticastion (token) with reset and forgot password     WORKING!!!!!
 router.post("/token", AuthController.token);
 router.post("/signup", AuthController.signup);
 router.post("/shopsignup", AuthController.shopsignup);
@@ -22,39 +22,39 @@ router.post("/post", AuthController.authenticateToken, PostController.addPost);
 router.post("/reset/:token", AuthController.myReset);
 
 
-//Displaying particular category of products
+//Displaying particular category of products    WORKING!!!!!
 router.get("/category/chips", CategoriesController.displayChips )
 router.get("/category/food", CategoriesController.displayFood )
 router.get("/category/accessories", CategoriesController.displayAccessory )
 
-//Displaying all products
+//Displaying all products    WORKING!!!!!
 router.get("/find", CategoriesController.viewAll)
 
-//Creating Product from Shop's POV
+//Creating Product from Shop's POV     WORKING!!!!!
 router.post("/products/create", CategoriesController.createProduct)
 
-//Search API by name of product
+//Search API by name of product   WORKING!!!!!
 router.get("/search", CategoriesController.searchAll)
 
-//Filter API for Products name + color
+//Filter API for Products name + color    WORKING!!!!!
 router.get("/filter", CategoriesController.filterProducts)
 
 
 
-//categories CRUD
+//categories CRUD WORKING!!!!!
 router.post("/new/category", CategoriesController.createCategory);
 router.get("/get/category", CategoriesController.getCategories);
 router.get("/:id/get/category", CategoriesController.getCategoryById);
 router.put("/:id/update/category", CategoriesController.updateCat);
 router.delete("/:id/delete/category", CategoriesController.deleteCat);
  
- //products CRUD
+ //products CRUD WORKING!!!!!
 router.get("/get/product", CategoriesController.getProducts);
 router.get("/:id/get/product", CategoriesController.getProductById);
 router.put("/:id/update/product", CategoriesController.updateProd);
 router.delete("/:id/delete/product", CategoriesController.deleteProd);
 
-//orders CRUD
+//orders CRUD WORKING!!!!!
 router.post("/new/order", OrdersController.newOrder);
 router.get("/get/order", OrdersController.getOrders);
 router.get("/:id/get/order", OrdersController.getOrderById);
@@ -77,14 +77,14 @@ router.get("/:id/get/cart", CartController.getCartById);
 router.put("/:id/update/cart", CartController.updateCart);
 router.delete("/:id/delete/cart", CartController.deleteCart);
 
-//pets CRUD
+//pets CRUD WORKING!!!!!
 router.post("/new/pet", PetsController.createPet);
 router.get("/get/pet", PetsController.getPets);
 router.get("/:id/get/pet", PetsController.getPetById);
 router.put("/:id/update/pet", PetsController.updatepet);
 router.delete("/:id/delete/pet", PetsController.deletePet);
 
-//vets CRUD
+//vets CRUD WORKING!!!!!
 /*
 router.post("/new/vet", VetBookingController.createVet);
 */
