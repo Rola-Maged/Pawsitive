@@ -87,8 +87,9 @@ router.delete("/:id/delete/pet", PetsController.deletePet);
 //vets CRUD
 /*
 router.post("/new/vet", VetBookingController.createVet);
-router.get("/get/vet", VetBookingController.getVets);
 */
+
+router.get("/get/vet", VetBookingController.getVets);
 router.get("/:id/get/vet", VetBookingController.getVetById);
 router.put("/:id/update/vet", VetBookingController.updateVet);
 router.delete("/:id/delete/vet", VetBookingController.deleteVet);

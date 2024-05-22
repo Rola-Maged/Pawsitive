@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
-const {vet}  = require("../models/vet")
+const {vet} = require("../models/vet")
 const  booking  = require("../models/booking")
 const { ObjectId } = require('mongodb')
 
@@ -25,7 +25,7 @@ exports.createVet = async(req,res)=>{
 
 }
 
-
+*/
 // Get all vets
 exports.getVets = async (req, res) => {
     try {
@@ -35,7 +35,7 @@ exports.getVets = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-*/
+
 
 // Get a vet by ID
 exports.getVetById = async (req, res) => {
@@ -54,7 +54,7 @@ exports.updateVet = async (req, res) => {
     const { name, password, address, email, phone, syndicateCard } = req.body;
     try {
         const updatedVet = await vet.findByIdAndUpdate(
-            req.body.id,
+            req.params.id,
             { name, password, address, email, phone, syndicateCard  },
             { new: true }
         );
@@ -68,13 +68,14 @@ exports.updateVet = async (req, res) => {
 // Delete a vet
 exports.deleteVet = async (req, res) => {
     try {
-        const deletedVet = await vet.findByIdAndDelete(req.body.id);
+        const deletedVet = await vet.findByIdAndDelete(req.params.id);
         if (!deletedVet) return res.status(404).json({ message: "vet not found" });
         res.status(200).json({ message: "vet deleted" });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 
 // Create a new booking
