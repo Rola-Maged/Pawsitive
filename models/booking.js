@@ -6,6 +6,7 @@ const { ObjectId } = require('mongodb');
 const bookingSchema = new Schema({
     date: {
         type: Date,
+        default: Date.now,
     },
     status: {
         type: String,

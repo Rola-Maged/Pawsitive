@@ -94,7 +94,7 @@ router.get("/:id/get/vet", VetBookingController.getVetById);
 router.put("/:id/update/vet", VetBookingController.updateVet);
 router.delete("/:id/delete/vet", VetBookingController.deleteVet);
 
-//booking CRUD
+//booking CRUD      WORKING!!!!!!!!
 router.post("/new/booking", VetBookingController.createBooking);
 router.get("/get/booking", VetBookingController.getBookings);
 router.get("/:id/get/booking", VetBookingController.getBookingById);
