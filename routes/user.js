@@ -101,12 +101,12 @@ router.get("/:id/get/booking", VetBookingController.getBookingById);
 router.put("/:id/update/booking", VetBookingController.updateBooking);
 router.delete("/:id/delete/booking", VetBookingController.deleteBooking);
 
-//shop CRUD
+//shop CRUD   WORKING!!!!!
 router.get("/:id/get/shop", CategoriesController.getShopById);
 router.put("/:id/update/shop", CategoriesController.updateShop);
 router.delete("/:id/delete/shop", CategoriesController.deleteShop);
 
-//user CRUD
+//user CRUD   WORKING!!!!!
 router.get("/:id/get/user", CategoriesController.getUserById);
 router.put("/:id/update/user", CategoriesController.updateUser);
 router.delete("/:id/delete/user", CategoriesController.deleteUser);

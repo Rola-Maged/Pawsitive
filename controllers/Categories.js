@@ -247,7 +247,7 @@ exports.updateShop = async (req, res) => {
     const { name, password, email, address, phone, taxRegister, offerings } = req.body;
     try {
         const updatedShop = await shop.findByIdAndUpdate(
-            req.body.id,
+            req.params.id,
             { name, password, email, address, phone, taxRegister, offerings },
             { new: true }
         );
@@ -261,7 +261,7 @@ exports.updateShop = async (req, res) => {
 // Delete a shop
 exports.deleteShop = async (req, res) => {
     try {
-        const deletedShop = await shop.findByIdAndDelete(req.body.id);
+        const deletedShop = await shop.findByIdAndDelete(req.params.id);
         if (!deletedShop) return res.status(404).json({ message: "shop not found" });
         res.status(200).json({ message: "shop deleted" });
     } catch (error) {
@@ -284,7 +284,7 @@ exports.updateUser = async (req, res) => {
     const { name, password, email, address, gender, age, phone } = req.body;
     try {
         const updatedUser = await user.findByIdAndUpdate(
-            req.body.id,
+            req.params.id,
             { name, password, email, address, gender, age, phone },
             { new: true }
         );
@@ -298,7 +298,7 @@ exports.updateUser = async (req, res) => {
 // Delete a user
 exports.deleteUser = async (req, res) => {
     try {
-        const deletedUser = await user.findByIdAndDelete(req.body.id);
+        const deletedUser = await user.findByIdAndDelete(req.params.id);
         if (!deletedUser) return res.status(404).json({ message: "user not found" });
         res.status(200).json({ message: "user deleted" });
     } catch (error) {

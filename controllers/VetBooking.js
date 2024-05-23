@@ -2,7 +2,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
 const {vet} = require("../models/vet")
-const  booking  = require("../models/booking")
+const  {booking}  = require("../models/booking")
 const { ObjectId } = require('mongodb')
 
 
@@ -110,7 +110,7 @@ exports.getBookings = async (req, res) => {
 // Get a booking by ID
 exports.getBookingById = async (req, res) => {
     try {
-        const singleBooking = await booking.findById(req.body.id);
+        const singleBooking = await booking.findById(req.params.id);
         if (!singleBooking) return res.status(404).json({ message: "bookikng not found" });
         res.status(200).json(singleBooking);
     } catch (error) {
@@ -123,11 +123,11 @@ exports.updateBooking = async (req, res) => {
     const { date, status, verificationNumber, vet, user } = req.body;
     try {
         const updatedBooking = await booking.findByIdAndUpdate(
-            req.body.id,
+            req.params.id,
             { date, status, verificationNumber, vet, user },
             { new: true }
         );
-        if (!updatedBooking) return res.status(404).json({ message: "Product not found" });
+        if (!updatedBooking) return res.status(404).json({ message: "booking not found" });
         res.status(200).json(updatedBooking);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -137,7 +137,7 @@ exports.updateBooking = async (req, res) => {
 // Delete a booking
 exports.deleteBooking = async (req, res) => {
     try {
-        const deletedBooking = await booking.findByIdAndDelete(req.body.id);
+        const deletedBooking = await booking.findByIdAndDelete(req.params.id);
         if (!deletedBooking) return res.status(404).json({ message: "booking not found" });
         res.status(200).json({ message: "booking deleted" });
     } catch (error) {
