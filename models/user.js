@@ -24,6 +24,12 @@ const userSchema = new Schema({
     phone:{
         type: Number
     },
+    role: {
+        type: ObjectId,
+        ref: "role",
+        required : true
+ 
+    },
     resetPasswordToken: String,
     resetPasswordExpires: Date
 });
