@@ -9,6 +9,7 @@ const { shop } = require("../models/shop");
 
 
 
+algoliasearch = require('algoliasearch');
 const app = express();
 
 require("dotenv").config();
@@ -305,3 +306,8 @@ exports.deleteUser = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+
+
+const client = algoliasearch('3VQGNMZJRN', 'c22681b24b28fb51c49f822140346ab1');
+const index = client.initIndex('your_index_name');
