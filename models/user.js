@@ -25,6 +25,10 @@ const userSchema = new Schema({
     phone:{
         type: Number
     },
+    role: {
+        type: String,
+ 
+    },
    
    /* role: {
         type: ObjectId,
@@ -49,6 +53,7 @@ const validate = (user) => {
         age: Joi.number().required(),
         adress: Joi.string().required(),
         phone: Joi.number().required(),
+        role: Joi.string().required(),
     });
     return schema.validate(user);
 };
