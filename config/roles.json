@@ -1,0 +1,16 @@
+{
+    "roles": [
+      {
+        "name": "admin",
+        "permissions": ["create_record", "read_record", "update_record", "delete_record"]
+      },
+      {
+        "name": "vet",
+        "permissions": ["create_record", "read_record", "update_record"]
+      },
+      {
+        "name": "shop",
+        "permissions": ["create_record", "read_record"]
+      }
+    ]
+  }

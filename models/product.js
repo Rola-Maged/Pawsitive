@@ -75,12 +75,14 @@ const productSchema = new Schema({
         type: String,
         required: false,
     },
-    category: {
+   /* category: {
         type: ObjectId,
         ref: "category",
         required : true
  
     },
+
+    */
 });
 
 const product = mongoose.model("product", productSchema);

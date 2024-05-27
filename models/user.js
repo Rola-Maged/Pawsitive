@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Joi = require("joi");
+const passportLocalMongoose = require('passport-local-mongoose');
 
 const userSchema = new Schema({
     name: {
@@ -24,12 +25,15 @@ const userSchema = new Schema({
     phone:{
         type: Number
     },
-    role: {
+   
+   /* role: {
         type: ObjectId,
         ref: "role",
         required : true
  
     },
+
+*/
     resetPasswordToken: String,
     resetPasswordExpires: Date
 });
@@ -48,5 +52,7 @@ const validate = (user) => {
     });
     return schema.validate(user);
 };
+
+userSchema.plugin(passportLocalMongoose);
 
 module.exports = {user, validate}
