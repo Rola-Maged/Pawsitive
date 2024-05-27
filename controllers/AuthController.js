@@ -7,7 +7,7 @@ const nodemailer = require("nodemailer");
 // const sendEmail = require("../utils/sendEmail")
 dotenv.config();
 const express = require("express");
-const { user } = require("../models/user");
+const { user,validate } = require("../models/user");
 const { vet } = require("../models/vet");
 const { shop } = require("../models/shop");
 
@@ -31,8 +31,9 @@ const transporter = nodemailer.createTransport({
 });
 
 exports.signup = async (req, res) => {
+  validate()
   try {
-    const { name, password, email, address, gender, age, phone } = req.body;
+    const { name, password, email, address, gender, age, phone,role } = req.body;
 
     // Check If The Input Fields are Valid
     if (!name || !password || !email || !address || !gender || !age || !phone) {
@@ -59,6 +60,7 @@ exports.signup = async (req, res) => {
       email,
       address,
       age,
+      role,
       gender,
       phone,
     });
