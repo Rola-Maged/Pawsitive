@@ -12,8 +12,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 AWS.config.update({
-  accessKeyId: 'AKIA2UC277CSCADDFZUM',
-  secretAccessKey: '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',
+  accessKeyId: process.env.accessKey,
+  secretAccessKey: process.env.secretKey,
   region: 'us-east-1'
 });
 
