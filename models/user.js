@@ -35,8 +35,8 @@ const userSchema = new Schema({
         type: String
     },
     role: {
-        type: String,
-        // roles: [roles.json],
+        type: String
+       // enum: [roles.json]
         // array: import from roles.json,
     },
    

@@ -36,11 +36,7 @@ exports.signup = async (req, res) => {
     const { name, password, email, address, gender, age, phone,role } = req.body;
 
     // Check If The Input Fields are Valid
-    if (!name || !password || !email || !address || !gender || !age || !phone) {
-      return res
-        .status(400)
-        .json({ message: "Please Input the Required Fields" });
-    }
+    
 
     // Check If User Exists In The Database
     const existingUser = await user.findOne({ email });
