@@ -86,28 +86,28 @@ const productSchema = new Schema({
 });
 
 const product = mongoose.model("product", productSchema);
-/*
-const validate = (product) => {
+
+const productValidate = (product) => {
     const schema = Joi.object({
-        name: Joi.string().required(),
-        code: Joi.number().required(),
-        details: Joi.string().required(),
-        price: Joi.number().required(),
-        quantity: Joi.number().required(),
-        rating: Joi.number().required(),
-        review: Joi.string().required(),
-        type: Joi.string().required(),
-        image: Joi.string().required(),
-        color: Joi.string().required(),
-        subscription: Joi.string().required(),
-        gender: Joi.string().required(),
-        age: Joi.number().required(),
-        breed: Joi.string().required(),
-        material: Joi.string().required(),
+        name: Joi.string(),
+        code: Joi.number(),
+        details: Joi.string(),
+        price: Joi.number(),
+        quantity: Joi.number(),
+        rating: Joi.number(),
+        review: Joi.string(),
+        type: Joi.string(),
+        image: Joi.string(),
+        color: Joi.string(),
+        subscription: Joi.string(),
+        gender: Joi.string(),
+        age: Joi.number(),
+        breed: Joi.string(),
+        material: Joi.string(),
         
     });
-    return schema.validate(product);
+    return schema.productValidate(product);
 };
-*/
 
-module.exports = { product };
+
+module.exports = { product, productValidate };

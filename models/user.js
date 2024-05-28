@@ -25,11 +25,19 @@ const userSchema = new Schema({
     phone:{
         type: Number
     },
+    taxRegister: {
+        type: String
+    },
+    offerings: {
+        type: String
+    },
+    syndicateCard: {
+        type: String
+    },
     role: {
         type: String,
+        // roles: [roles.json],
         // array: import from roles.json,
-        
- required:true
     },
    
    /* role: {
@@ -46,7 +54,7 @@ const userSchema = new Schema({
 
 const user = mongoose.model("user", userSchema)
 
-const validate = (user) => {
+const userValidate = (user) => {
     const schema = Joi.object({
         name: Joi.string().required(),
         email: Joi.string().email().required(),
@@ -55,11 +63,14 @@ const validate = (user) => {
         age: Joi.number().required(),
         adress: Joi.string().required(),
         phone: Joi.number().required(),
+        taxRegister: Joi.string(),
+        offerings: Joi.string(),
+        syndicateCard: Joi.string(),
         role: Joi.string().required(),
     });
-    return schema.validate(user);
+    return schema.userValidate(user);
 };
 
 userSchema.plugin(passportLocalMongoose);
 
-module.exports = {user, validate}
+module.exports = {user, userValidate}

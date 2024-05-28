@@ -31,7 +31,7 @@ const transporter = nodemailer.createTransport({
 });
 
 exports.signup = async (req, res) => {
-  validate()
+  userValidate()
   try {
     const { name, password, email, address, gender, age, phone,role } = req.body;
 
@@ -76,6 +76,10 @@ exports.signup = async (req, res) => {
   }
 };
 
+
+
+
+/*
 exports.shopsignup = async (req, res) => {
   try {
     const { name, password, email, address, phone, taxRegister, offerings } =
@@ -171,6 +175,7 @@ exports.vetsignUp = async (req, res) => {
     return res.status(500).json({ message: "Error creating user" });
   }
 };
+*/
 
 exports.signin = async (req, res) => {
   try {

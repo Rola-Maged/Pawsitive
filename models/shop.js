@@ -1,3 +1,4 @@
+/*
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Joi = require("joi");
@@ -42,3 +43,4 @@ const validate = (shop) => {
 };
 
 module.exports = { shop, validate };
+*/

@@ -1,4 +1,3 @@
-/* 
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Joi = require("joi");
@@ -6,39 +5,37 @@ const Joi = require("joi");
 const cartSchema = new Schema({
     date: {
         type: Date,
-        required: true,
+      default: Date.now,
     },
     type: {
         type: String,
-        required: true,
     },
     quantity: {
         type: String,
-        required: true,
     },
     status: {
         type: String,
-        required: true,
     },
+    // products: [productSchema],
      
 });
 
 const cart = mongoose.model("cart", cartSchema);
 
-const validate = (cart) => {
+const cartValidate = (cart) => {
     const schema = Joi.object({
         date: Joi.date().required(),
         type: Joi.string().required(),
         quantity: Joi.number().required(),
         status: Joi.string().required(),
     });
-    return schema.validate(cart);
+    return schema.cartValidate(cart);
 };
 
-module.exports = { cart, validate };
+module.exports = { cart, cartValidate };
 
 
-
+/*
 var ItemSchema = new Schema({
     product_id: {
       type: String,

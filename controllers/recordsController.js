@@ -1,3 +1,4 @@
+/*
 // Create a new record
 exports.createRecord = async(req,res)=>{
     const { date, status, verificationNumber, vet, user } = req.body;
@@ -64,3 +65,4 @@ exports.deleteRecord = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+*/
