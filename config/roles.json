@@ -5,6 +5,10 @@
         "permissions": ["create_record", "read_record", "update_record", "delete_record"]
       },
       {
+        "name": "petOwner",
+        "permissions": ["create_record", "read_record", "update_record", "delete_record"]
+      },
+      {
         "name": "vet",
         "permissions": ["create_record", "read_record", "update_record"]
       },

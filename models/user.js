@@ -19,7 +19,7 @@ const userSchema = new Schema({
     age: {
         type: Number
     },
-    adress: {
+    address: {
         type: String
     },
     phone:{
@@ -35,9 +35,10 @@ const userSchema = new Schema({
         type: String
     },
     role: {
-        type: String
-       // enum: [roles.json]
+        type: String,
         // array: import from roles.json,
+        
+ required:true
     },
    
    /* role: {
@@ -61,7 +62,7 @@ const userValidate = (user) => {
         password: Joi.string().required(),
         gender: Joi.string().required(),
         age: Joi.number().required(),
-        adress: Joi.string().required(),
+        address: Joi.string().required(),
         phone: Joi.number().required(),
         taxRegister: Joi.string(),
         offerings: Joi.string(),
