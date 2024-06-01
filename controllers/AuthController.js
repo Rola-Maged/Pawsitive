@@ -65,10 +65,14 @@ exports.signup = async (req, res) => {
     });
 
     await newUser.save();
-
+    const accessToken = jwt.sign(
+      { userId: user.id, name: user.email },
+      ACCESS_TOKEN_SECRET,
+      { expiresIn: "2m" },
+    )
     return res
       .status(201)
-      .json({ message: "User Created Successfully", newUser });
+      .json({ message: "User Created Successfully", newUser, accessToken });
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({ message: "Error creating user" });
@@ -119,10 +123,16 @@ exports.shopsignup = async (req, res) => {
     });
 
     await newUser.save();
+    const accessToken = jwt.sign(
+      { userId: shop.id, name: shop.email },
+      ACCESS_TOKEN_SECRET,
+      { expiresIn: "2m" },
+    )
 
     return res
       .status(201)
       .json({ message: "User Created Successfully", newUser });
+      
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({ message: "Error creating user" });
@@ -176,6 +186,7 @@ exports.vetsignUp = async (req, res) => {
 exports.signin = async (req, res) => {
   try {
     const { email, password } = req.body;
+    
     const checkUser = await user.findOne({ email });
     const checkShop = await shop.findOne({ email });
     const checkVet = await vet.findOne({ email });

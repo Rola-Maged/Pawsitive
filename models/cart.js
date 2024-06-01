@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const productSchema = require("./product");
 const Joi = require("joi");
 
 const cartSchema = new Schema({
@@ -16,7 +17,9 @@ const cartSchema = new Schema({
     status: {
         type: String,
     },
-    // products: [productSchema],
+    
+     products : [{ type: Schema.Types.ObjectId, ref: 'product' }]
+
      
 });
 
