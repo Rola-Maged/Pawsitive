@@ -10,6 +10,14 @@ const Email = require("../utils/sendEmail");
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
+const fetch = require('node-fetch');
+const FormData = require('form-data');
+const UPLOADCARE_PUBLIC_KEY = '6a1f2328d9b1362407d2'  
+const multer = require('multer');
+
+const uploadcareClient = require('../config/uploadcare');
+const { Readable } = require('stream');
+
 
 //Sign up and Sign in and authenticastion (token) with reset and forgot password     WORKING!!!!!
 router.post("/token", AuthController.token);
@@ -110,6 +118,47 @@ router.delete("/:id/delete/shop", CategoriesController.deleteShop);
 router.get("/:id/get/user", CategoriesController.getUserById);
 router.put("/:id/update/user", CategoriesController.updateUser);
 router.delete("/:id/delete/user", CategoriesController.deleteUser);
+
+
+
+// Multer middleware for handling multipart/form-data
+
+const upload = multer();
+
+// Route to handle file uploads
+router.post('/upload', upload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+
+    const file = req.file;
+    const formData = new FormData();
+    formData.append('UPLOADCARE_PUB_KEY', UPLOADCARE_PUBLIC_KEY);
+    formData.append('file', file.buffer, { filename: file.originalname });
+
+// Log FormData object before making the request
+console.log('FormData:', formData);
+
+const response = await fetch('https://upload.uploadcare.com/', {
+  method: 'POST',
+  body: formData,
+});
+
+
+    if (!response.ok) {
+      throw new Error('Failed to upload file');
+    }
+
+    const data = await response.json();
+    res.status(200).json({ fileUrl: data.file });
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    res.status(500).json({ error: 'Failed to upload file' });
+  }
+});
+
+
 
 
 module.exports = router;

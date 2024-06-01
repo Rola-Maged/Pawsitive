@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@uploadcare/rest-client": "^6.14.1",
+    "@uploadcare/upload-client": "^6.14.1",
     "algoliasearch": "^4.23.3",
     "aws-sdk": "^2.1628.0",
     "bcrypt": "^5.1.1",
@@ -30,6 +32,7 @@
     "nodemon": "^3.1.0",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^8.0.0"
+    "passport-local-mongoose": "^8.0.0",
+    "uploadcare": "^0.4.8"
   }
 }
