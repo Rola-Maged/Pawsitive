@@ -3,12 +3,13 @@ const Schema = mongoose.Schema;
 const Joi = require("joi");
 
 const chipSchema = new Schema({
-    price: {
+   /* price: {
         type: Number
     },
     quantity: {
         type: Number
     },
+    */
     subscription: {
         type: String
     },
@@ -18,6 +19,7 @@ const chipSchema = new Schema({
     color: {
         type: String
     },
+    /*
     rating: {
         type: String,
 
@@ -42,21 +44,24 @@ const chipSchema = new Schema({
         required : true
  
     },
- 
+ */
 });
 
 const chip = mongoose.model("chip", chipSchema);
 
 const validate = (chip) => {
     const schema = Joi.object({
-        price: Joi.number().required(),
+       /* price: Joi.number().required(),
         quantity: Joi.number().required(),
+        */
         subscription: Joi.string().required(),
         details: Joi.string().required(),
         color: Joi.string().required(),
+        /*
         rating: Joi.string().required(),
         review: Joi.string().required(),
         image: Joi.string().required(),
+        */
     });
     return schema.validate(chip);
 };

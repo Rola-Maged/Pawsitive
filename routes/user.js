@@ -4,6 +4,7 @@ const CategoriesController = require("../controllers/Categories");
 const OrdersController = require("../controllers/Orders");
 const OrderProductController = require("../controllers/OrderProducts");
 const CartController = require("../controllers/Cart");
+const ChipController = require("../controllers/ChipController");
 const VetBookingController = require("../controllers/VetBooking");
 const PetsController = require("../controllers/Pets");
 const Email = require("../utils/sendEmail");
@@ -84,6 +85,14 @@ router.get("/get/cart", CartController.getCart);
 router.get("/:id/get/cart", CartController.getCartById);
 router.put("/:id/update/cart", CartController.updateCart);
 router.delete("/:id/delete/cart", CartController.deleteCart);
+
+
+//Chip CRUD
+router.post("/new/cart", ChipController.createChip);
+router.get("/get/cart", ChipController.getChip);
+router.get("/:id/get/cart", ChipController.getChipById);
+router.put("/:id/update/cart", ChipController.updateChip);
+router.delete("/:id/delete/cart", ChipController.deleteChip);
 
 //pets CRUD WORKING!!!!!
 router.post("/new/pet", PetsController.createPet);

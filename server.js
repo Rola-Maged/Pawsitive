@@ -9,11 +9,24 @@ const multerS3 = require('multer-s3');
 const path = require('path');
 const uploadRoute = require('./routes/user');
 const { UploadcareClient } = require('@uploadcare/rest-client');
-
+const stripe = require('stripe')('sk_test_51PLbE4JMaxbeAA5VN9CTie8PwNuPFypqai3D3nwmh18lUTQigGJ7sA8kve5hEZx6e413QlRBHbY0nFKFu4T19A8Z007McC24nB');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
+app.post('/charge', async (req, res) => {
+  try {
+    const { email, amount } = req.body;
+    const customer = await stripe.customers.create({ email });
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amount * 100, // Amount in cents
+      currency: 'usd',
+      customer: customer.id,
+    });
+    res.status(200).json(paymentIntent);
+  } catch (error) {
+    res.status(500).json({ error: 'Payment failed' });
+  }
+});
 
 app.use('/api', uploadRoute);
 
