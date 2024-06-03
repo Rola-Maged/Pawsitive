@@ -13,6 +13,10 @@ const stripe = require('stripe')('sk_test_51PLbE4JMaxbeAA5VN9CTie8PwNuPFypqai3D3
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
+
+
+
 app.post('/charge', async (req, res) => {
   try {
     const { email, amount } = req.body;

@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
-const chip  = require("../models/chip")
+const {chip}  = require("../models/chip")
 const { ObjectId } = require('mongodb')
 
 
@@ -63,9 +63,9 @@ exports.updateChip = async (req, res) => {
 // Delete a chip
 exports.deleteChip = async (req, res) => {
     try {
-        const deletedChip = await cart.findByIdAndDelete(req.body.id);
+        const deletedChip = await chip.findByIdAndDelete(req.body.id);
         if (!deletedChip) return res.status(404).json({ message: "chip not found" });
-        res.status(200).json({ message: "cart deleted" });
+        res.status(200).json({ message: "chip deleted" });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

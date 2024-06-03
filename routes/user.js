@@ -88,11 +88,11 @@ router.delete("/:id/delete/cart", CartController.deleteCart);
 
 
 //Chip CRUD
-router.post("/new/cart", ChipController.createChip);
-router.get("/get/cart", ChipController.getChip);
-router.get("/:id/get/cart", ChipController.getChipById);
-router.put("/:id/update/cart", ChipController.updateChip);
-router.delete("/:id/delete/cart", ChipController.deleteChip);
+router.post("/new/chip", ChipController.createChip);
+router.get("/get/chip", ChipController.getChip);
+router.get("/:id/get/chip", ChipController.getChipById);
+router.put("/:id/update/chip", ChipController.updateChip);
+router.delete("/:id/delete/chip", ChipController.deleteChip);
 
 //pets CRUD WORKING!!!!!
 router.post("/new/pet", PetsController.createPet);

@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
-const cart  = require("../models/cart")
+const {cart}  = require("../models/cart")
 const { ObjectId } = require('mongodb')
 
 
