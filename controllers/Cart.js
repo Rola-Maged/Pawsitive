@@ -36,8 +36,10 @@ exports.getCart = async (req, res) => {
 
 // Get a cart by ID
 exports.getCartById = async (req, res) => {
+    // console.log(req.params.id);
     try {
-        const singleCart = await cart.findById(req.body.id);
+        
+        const singleCart = await cart.findById(req.params.id);
         if (!singleCart) return res.status(404).json({ message: "cart not found" });
         res.status(200).json(singleCart);
     } catch (error) {

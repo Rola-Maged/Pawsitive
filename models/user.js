@@ -16,9 +16,6 @@ const userSchema = new Schema({
     gender: {
         type: String
     },
-    age: {
-        type: Number
-    },
     address: {
         type: String
     },
@@ -61,7 +58,6 @@ const userValidate = (user) => {
         email: Joi.string().email().required(),
         password: Joi.string().required(),
         gender: Joi.string().required(),
-        age: Joi.number().required(),
         address: Joi.string().required(),
         phone: Joi.number().required(),
         taxRegister: Joi.string(),
