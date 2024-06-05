@@ -29,11 +29,11 @@ const vet = mongoose.model("vet", vetSchema);
 
 const validate = (vet) => {
     const schema = Joi.object({
-        name: Joi.string().required(),
-        email: Joi.string().email().required(),
-        address: Joi.string().required(),
-        phone: Joi.number().required(),
-        syndicateCard: Joi.string().required(),
+        name: Joi.string(),
+        email: Joi.string().email(),
+        address: Joi.string(),
+        phone: Joi.number(),
+        syndicateCard: Joi.string(),
     });
     return schema.validate(vet);
 };

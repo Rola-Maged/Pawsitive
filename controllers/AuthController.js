@@ -32,7 +32,7 @@ const transporter = nodemailer.createTransport({
 
 exports.signup = async (req, res) => {
   try {
-    const { name, password, email, address, gender, phone, role } = req.body;
+    const { name, password, email, address, gender, phone} = req.body;
 
     // Check If The Input Fields are Valid
     if (!name || !password || !email || !address || !gender|| !phone ) {
@@ -58,8 +58,6 @@ exports.signup = async (req, res) => {
       password: hashedPassword,
       email,
       address,
-      age,
-      role,
       gender,
       phone,
     });
@@ -82,7 +80,7 @@ exports.signup = async (req, res) => {
 
 exports.shopsignup = async (req, res) => {
   try {
-    const { name, password, email, address, phone, taxRegister, offerings } =
+    const { name, password, email, address, phone, taxRegister } =
       req.body;
 
     // Check If The Input Fields are Valid
@@ -92,8 +90,7 @@ exports.shopsignup = async (req, res) => {
       !email ||
       !address ||
       !phone ||
-      !taxRegister ||
-      !offerings
+      !taxRegister 
     ) {
       return res
         .status(400)
