@@ -70,16 +70,16 @@ router.get("/:id/get/order", OrdersController.getOrderById);
 router.put("/:id/update/order", OrdersController.updateOrder);
 router.delete("/:id/delete/order", OrdersController.deleteOrder);
 
-
+/*
 //orderedProducts CRUD
 router.post("/new/orderprod", OrderProductController.createOrderProd);
 router.get("/get/orderprod", OrderProductController.getOrderProduct);
 router.get("/:id/get/orderprod", OrderProductController.getOrderProductById);
 router.put("/:id/update/orderprod", OrderProductController.updateOrderProd);
 router.delete("/:id/delete/orderprod", OrderProductController.deleteOrderProd);
+*/
 
-
-//Cart CRUD
+//Cart CRUD WORKING!!!!!
 router.post("/new/cart", CartController.createCart);
 router.get("/get/cart", CartController.getCart);
 router.get("/:id/get/cart", CartController.getCartById);
@@ -87,7 +87,7 @@ router.put("/:id/update/cart", CartController.updateCart);
 router.delete("/:id/delete/cart", CartController.deleteCart);
 
 
-//Chip CRUD
+//Chip CRUD WORKING!!!!!
 router.post("/new/chip", ChipController.createChip);
 router.get("/get/chip", ChipController.getChip);
 router.get("/:id/get/chip", ChipController.getChipById);

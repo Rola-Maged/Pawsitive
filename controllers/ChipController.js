@@ -36,7 +36,7 @@ exports.getChip = async (req, res) => {
 // Get a cart by ID
 exports.getChipById = async (req, res) => {
     try {
-        const singleChip = await chip.findById(req.body.id);
+        const singleChip = await chip.findById(req.params.id);
         if (!singleChip) return res.status(404).json({ message: "chip not found" });
         res.status(200).json(singleChip);
     } catch (error) {
@@ -49,7 +49,7 @@ exports.updateChip = async (req, res) => {
     const { subscription, details, color  } = req.body;
     try {
         const updateChip = await chip.findByIdAndUpdate(
-            req.body.id,
+            req.params.id,
             { subscription, details, color  },
             { new: true }
         );
@@ -63,7 +63,7 @@ exports.updateChip = async (req, res) => {
 // Delete a chip
 exports.deleteChip = async (req, res) => {
     try {
-        const deletedChip = await chip.findByIdAndDelete(req.body.id);
+        const deletedChip = await chip.findByIdAndDelete(req.params.id);
         if (!deletedChip) return res.status(404).json({ message: "chip not found" });
         res.status(200).json({ message: "chip deleted" });
     } catch (error) {

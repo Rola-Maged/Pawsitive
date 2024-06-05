@@ -52,7 +52,7 @@ exports.updateCart = async (req, res) => {
     const { date, type, quantity, status } = req.body;
     try {
         const updatedCart = await cart.findByIdAndUpdate(
-            req.body.id,
+            req.params.id,
             { date, type, quantity, status },
             { new: true }
         );
@@ -66,7 +66,7 @@ exports.updateCart = async (req, res) => {
 // Delete a cart
 exports.deleteCart = async (req, res) => {
     try {
-        const deletedCart = await cart.findByIdAndDelete(req.body.id);
+        const deletedCart = await cart.findByIdAndDelete(req.params.id);
         if (!deletedCart) return res.status(404).json({ message: "cart not found" });
         res.status(200).json({ message: "cart deleted" });
     } catch (error) {
