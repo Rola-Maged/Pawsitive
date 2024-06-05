@@ -132,40 +132,21 @@ router.delete("/:id/delete/user", CategoriesController.deleteUser);
 
 // Multer middleware for handling multipart/form-data
 
-const upload = multer();
+const upload = multer({ dest: 'uploads/' });
+const uploadFields = upload.fields([
+  { name: 'profilePic', maxCount: 1 }
+]);
 
 // Route to handle file uploads
-router.post('/upload', upload.single('file'), async (req, res) => {
-  try {
-    if (!req.file) {
+router.post('/upload', uploadFields, (req, res) => {
+  if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).json({ error: 'No file uploaded' });
-    }
-
-    const file = req.file;
-    const formData = new FormData();
-    formData.append('UPLOADCARE_PUB_KEY', UPLOADCARE_PUBLIC_KEY);
-    formData.append('file', file.buffer, { filename: file.originalname });
-
-// Log FormData object before making the request
-console.log('FormData:', formData);
-
-const response = await fetch('https://upload.uploadcare.com/', {
-  method: 'POST',
-  body: formData,
-});
-
-
-    if (!response.ok) {
-      throw new Error('Failed to upload file');
-    }
-
-    const data = await response.json();
-    res.status(200).json({ fileUrl: data.file });
-  } catch (error) {
-    console.error('Error uploading file:', error);
-    res.status(500).json({ error: 'Failed to upload file' });
   }
+  console.log('Files:', req.files);
+  console.log('Body:', req.body);
+  res.send('Files uploaded successfully');
 });
+
 
 
 
