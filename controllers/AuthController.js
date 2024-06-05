@@ -4,10 +4,11 @@ const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
 const Joi = require("joi");
 const nodemailer = require("nodemailer");
+const bodyParser = require('body-parser');
 // const sendEmail = require("../utils/sendEmail")
 dotenv.config();
 const express = require("express");
-const { user,validate } = require("../models/user");
+const { user } = require("../models/user");
 const { vet } = require("../models/vet");
 const { shop } = require("../models/shop");
 
@@ -33,12 +34,12 @@ const transporter = nodemailer.createTransport({
 exports.signup = async (req, res) => {
   try {
     const { name, password, email, address, gender, phone} = req.body;
+    console.log('Request Body:', req.body);
 
     // Check If The Input Fields are Valid
-    if (!name || !password || !email || !address || !gender|| !phone ) {
-      return res
-        .status(400)
-        .json({ message: "Please Input the Required Fields" });
+    if (!name || !password || !email || !address || !gender || !phone) {
+      return res.status(400).json({ message: "Please Input the Required Fields" });
+      
     }
 
     // Check If User Exists In The Database
@@ -64,7 +65,7 @@ exports.signup = async (req, res) => {
 
     await newUser.save();
     const accessToken = jwt.sign(
-      { userId: user.id, name: user.email },
+      { userId: newUser.id, name: newUser.email },
       ACCESS_TOKEN_SECRET,
       { expiresIn: "2m" },
     )

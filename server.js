@@ -14,7 +14,7 @@ const stripe = Stripe('sk_test_51PLbE4JMaxbeAA5VN9CTie8PwNuPFypqai3D3nwmh18lUTQi
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-
+app.use(bodyParser.json());
 
 
 app.post('/charge', async (req, res) => {

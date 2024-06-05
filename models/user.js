@@ -35,7 +35,7 @@ const userSchema = new Schema({
         type: String,
         // array: import from roles.json,
         
- required:true
+ required:false
     },
    
    /* role: {
