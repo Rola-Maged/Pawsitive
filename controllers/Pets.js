@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
-const {pet}  = require("../models/pet")
+const {pet, petValidate}  = require("../models/pet")
 const { ObjectId } = require('mongodb')
 const {user} = require("../models/user")
 
@@ -11,6 +11,7 @@ const {user} = require("../models/user")
 // Create a new pet
 exports.createPet = async(req,res)=>{
     const { name, ownershipCertificate, gender, breed, age, type, vaccination, user } = req.body;
+    petValidate()
     const newPet = new pet({
         name,
         ownershipCertificate, 

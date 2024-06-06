@@ -36,7 +36,7 @@ const petSchema = new Schema({
 
 const pet = mongoose.model("pet", petSchema);
 
-const validate = (pet) => {
+const petValidate  = (pet) => {
     const schema = Joi.object({
         name: Joi.string().required(),
         ownershipCertificate: Joi.string().required(),
@@ -46,9 +46,9 @@ const validate = (pet) => {
         type: Joi.string().required(),
         vaccination: Joi.string().required(),
     });
-    return schema.validate(pet);
+    return schema.petValidate(pet);
 };
 
-module.exports = { pet, validate };
+module.exports = { pet, petValidate };
 
 

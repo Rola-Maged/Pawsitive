@@ -17,35 +17,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
-app.post('/charge', async (req, res) => {
-  try {
-    const { email, amount } = req.body;
-    const customer = await stripe.customers.create(
-      {
-        description: 'My First Test Customer (created for API docs at https://docs.stripe.com/api)',
-      },
-      {
-        idempotencyKey: 'KG5LxwFBepaKHyUD',
-      }
-    );
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: 2000,
-      currency: 'usd',
-      automatic_payment_methods: {
-        enabled: true,
-      },
-    });
-    // const customer = await stripe.customers.create({ email });
-    // const paymentIntent = await stripe.paymentIntents.create({
-    //   amount: amount * 100, // Amount in cents
-    //   currency: 'usd',
-    //   customer: customer.id,
-    // });
-    res.status(200).json(paymentIntent);
-  } catch (error) {
-    res.status(500).json({ error: 'Payment failed' });
-  }
-});
 
 app.use('/api', uploadRoute);
 

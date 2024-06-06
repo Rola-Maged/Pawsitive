@@ -15,7 +15,7 @@ const fetch = require('node-fetch');
 const FormData = require('form-data');
 const UPLOADCARE_PUBLIC_KEY = '6a1f2328d9b1362407d2'  
 const multer = require('multer');
-
+const StripeController = require("../controllers/stripe");
 const uploadcareClient = require('../config/uploadcare');
 const { Readable } = require('stream');
 
@@ -168,6 +168,27 @@ const response = await fetch('https://upload.uploadcare.com/', {
 });
 
 
+
+
+
+// checkout
+router.get("/retreieve/checkout", StripeController.retrieveCheckout);
+router.post("/new/checkout", StripeController.newCheckout);
+router.get("/list/checkout", StripeController.listCheckout);
+
+// subscription
+router.get("/list/subscription", StripeController.listSubscription);
+router.post("/new/subscription", StripeController.newSubscription);
+router.get("/retrieve/subscription", StripeController.retrieveSubscription);
+
+//payment intent
+router.post("/charge", StripeController.charge); 
+router.post("/confirmation", StripeController.confirmation);
+
+router.get("/products", StripeController.Products); 
+
+router.get("/PricesProducts", StripeController.PricesProducts);
+ 
 
 
 module.exports = router;

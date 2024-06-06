@@ -81,10 +81,10 @@ const productSchema = new Schema({
         required : true,
  
     },
-/*
-add a boolean value for sustaiable products and ask the doctor about the ratings
-*/
-    
+    Sustainable: {
+        type: Boolean,
+        required: true,
+    },
 });
 
 const product = mongoose.model("product", productSchema);
