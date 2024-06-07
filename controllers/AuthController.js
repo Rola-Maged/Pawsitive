@@ -81,7 +81,7 @@ exports.signup = async (req, res) => {
 
 exports.shopsignup = async (req, res) => {
   try {
-    const { name, password, email, address, phone, taxRegister } =
+    const { name, password, email, address, phone, taxRegister, offerings} =
       req.body;
 
     // Check If The Input Fields are Valid
@@ -91,7 +91,8 @@ exports.shopsignup = async (req, res) => {
       !email ||
       !address ||
       !phone ||
-      !taxRegister 
+      !taxRegister ||
+      !offerings
     ) {
       return res
         .status(400)
