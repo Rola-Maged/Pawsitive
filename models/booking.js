@@ -32,13 +32,13 @@ const bookingSchema = new Schema({
 
 const booking = mongoose.model("booking", bookingSchema);
 
-const validate = (booking) => {
+const BookingValidate = (booking) => {
     const schema = Joi.object({
         date: Joi.date().required(),
         status: Joi.string().required(),
         verificationNumber: Joi.number().required(),
     });
-    return schema.validate(booking);
+    return schema.BookingValidate(booking);
 };
 
-module.exports = { booking, validate };
+module.exports = { booking, BookingValidate };

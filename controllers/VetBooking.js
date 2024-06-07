@@ -2,7 +2,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
 const {vet} = require("../models/vet")
-const  {booking}  = require("../models/booking")
+const  {booking, BookingValidate}  = require("../models/booking")
 const { ObjectId } = require('mongodb')
 const router = express.Router();
 const {user} = require('../models/user');
@@ -82,6 +82,7 @@ exports.deleteVet = async (req, res) => {
 // Create a new booking
 exports.createBooking = async(req,res)=>{
     const { date, status, verificationNumber, vet, user } = req.body;
+    BookingValidate()
     const newBooking = new booking({
         date,
         status,
@@ -122,6 +123,7 @@ exports.getBookingById = async (req, res) => {
 // Update a booking
 exports.updateBooking = async (req, res) => {
     const { date, status, verificationNumber, vet, user } = req.body;
+    BookingValidate()
     try {
         const updatedBooking = await booking.findByIdAndUpdate(
             req.params.id,
