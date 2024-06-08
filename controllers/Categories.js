@@ -51,8 +51,8 @@ exports.displayAccessory = async(req,res)=>{
 
 // Create a new product
 exports.createProduct = async(req,res)=>{
-    const { name, code, details, price, quantity, rating, review, type, image, subscription, color, gender, breed, age, material, category, sustainable } = req.body;
-    const { error } = productValidate({ name, code, details, price, quantity, rating, review, type, image, subscription, color, gender, breed, age, material, category, sustainable});
+    const { name, code, details, price, quantity, rating, review, image, subscription, color, gender, breed, age, material, category, sustainable } = req.body;
+    const { error } = productValidate({ name, code, details, price, quantity, rating, review, image, subscription, color, gender, breed, age, material, category, sustainable});
     if (error) return res.status(400).send(error.details[0].message);
 
     const newProduct = new product({
@@ -63,7 +63,6 @@ exports.createProduct = async(req,res)=>{
         quantity,
         rating,
         review,
-        type,
         image,
         subscription,
         color,
