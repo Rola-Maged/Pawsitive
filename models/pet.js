@@ -30,7 +30,6 @@ const petSchema = new Schema({
     user: {
         type: ObjectId,
         ref: "user",
-        required : true
  
     },
      
@@ -47,7 +46,6 @@ const pet = mongoose.model("pet", petSchema);
         breed: Joi.string().required(),
         type: Joi.string().required(),
         vaccination: Joi.number().required(),
-        user: Joi.string().required(),
     });
     const petValidate  = (pet) => {
     return petJoischema.validate(pet);
