@@ -22,7 +22,6 @@ const orderSchema = new Schema({
     user: {
         type: ObjectId,
         ref: "user",
-        required : true
  
     },
     products : [{ type: Schema.Types.ObjectId, ref: 'product' }]
@@ -34,7 +33,6 @@ const order = mongoose.model("order", orderSchema);
         type: Joi.string().required(),
         quantity: Joi.number().required(),
         status: Joi.string().required(),
-        user: Joi.string().required(),
         product: Joi.string().required(),
     });
     const orderValidate = (order) => {

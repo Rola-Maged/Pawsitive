@@ -10,15 +10,15 @@ const { ObjectId } = require('mongodb')
 
 // Create a new order
 exports.newOrder = async(req,res)=>{
-    const {  type, quantity, status, user, product} = req.body;
-    const { error } = orderValidate({ type, quantity, status, user, product});
+    const {  type, quantity, status, product} = req.body;
+    var user = req.user;
+    const { error } = orderValidate({ type, quantity, status, product});
     if (error) return res.status(400).send(error.details[0].message);
 
     const createOrder = new order({
         type,
         quantity,
         status,
-        user,
         product,
       });
   /*

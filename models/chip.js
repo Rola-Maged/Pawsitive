@@ -19,6 +19,14 @@ const chipSchema = new Schema({
     color: {
         type: String
     },
+    img:
+    {
+        data: Buffer,
+        contentType: String
+    },
+    name:{
+        type:String
+    }
     /*
     rating: {
         type: String,

@@ -81,8 +81,10 @@ exports.deleteVet = async (req, res) => {
 
 // Create a new booking
 exports.createBooking = async(req,res)=>{
-    const { status, verificationNumber, vet, user } = req.body;
-    const { error } = BookingValidate({  status, verificationNumber, vet, user });
+    const { status, verificationNumber, vet } = req.body;
+
+    var user = req.user;
+    const { error } = BookingValidate({  status, verificationNumber, vet});
     if (error) return res.status(400).send(error.details[0].message);
 
     const newBooking = new booking({
@@ -90,7 +92,6 @@ exports.createBooking = async(req,res)=>{
         status,
         verificationNumber,
         vet,
-        user,
          
     });
   

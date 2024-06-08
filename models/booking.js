@@ -17,7 +17,6 @@ const bookingSchema = new Schema({
     user: {
         type: ObjectId,
         ref: "user",
-        required : true
  
     },
     vet: {
@@ -35,8 +34,7 @@ const booking = mongoose.model("booking", bookingSchema);
     const bookingJoischema = Joi.object({
         status: Joi.string().required(),
         verificationNumber: Joi.number().required(),
-        user: Joi.string().required(),
-        vet: Joi.string().required(),
+          vet: Joi.string().required(),
     });
     const BookingValidate  = (booking) => {
         return bookingJoischema.validate(booking);

@@ -22,6 +22,11 @@ const vetSchema = new Schema({
     syndicateCard: {
         type: String
     },
+    img:
+    {
+        data: Buffer,
+        contentType: String
+    }
      
 });
 
