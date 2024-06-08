@@ -8,16 +8,9 @@ const cartSchema = new Schema({
         type: Date,
       default: Date.now,
     },
-    type: {
-        type: String,
-    },
     quantity: {
         type: String,
     },
-    status: {
-        type: String,
-    },
-    
      products : [{ type: Schema.Types.ObjectId, ref: 'product' }]
 
      
@@ -28,7 +21,6 @@ const cart = mongoose.model("cart", cartSchema);
  
     const cartJoischema = Joi.object({
         quantity: Joi.number().required(),
-        status: Joi.string().required(),
         products: Joi.string().required(),
     });
      
