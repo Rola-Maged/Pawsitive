@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
-const {chip}  = require("../models/chip")
+const {chip, chipValidate}  = require("../models/chip")
 const { ObjectId } = require('mongodb')
 
 
@@ -10,12 +10,20 @@ const { ObjectId } = require('mongodb')
 // Create a new chip
 exports.createChip = async(req,res)=>{
     const { subscription, details, color } = req.body;
+    const { error } = chipValidate({ subscription, details, color});
+    if (error) return res.status(400).send(error.details[0].message);
+
     const newChip = new chip({
         subscription, 
         details,
         color,
       });
-  
+   
+      const existingUser = await chip.findOne({  subscription });
+
+    if (existingUser) {
+      return res.status(400).json({ message: "chip already subscribed" });
+    };
       await newChip.save();
 
       res.json(newChip)

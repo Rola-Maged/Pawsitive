@@ -49,8 +49,7 @@ const chipSchema = new Schema({
 
 const chip = mongoose.model("chip", chipSchema);
 
-const validate = (chip) => {
-    const schema = Joi.object({
+    const chipJoischema = Joi.object({
        /* price: Joi.number().required(),
         quantity: Joi.number().required(),
         */
@@ -63,7 +62,8 @@ const validate = (chip) => {
         image: Joi.string().required(),
         */
     });
-    return schema.validate(chip);
+    const chipValidate = (chip) => {
+        return chipJoischema.validate(chip);
 };
 
-module.exports = { chip, validate };
+module.exports = { chip, chipValidate };

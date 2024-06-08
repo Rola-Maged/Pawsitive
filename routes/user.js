@@ -50,7 +50,7 @@ router.get("/filter", CategoriesController.filterProducts)
 
 
 
-//categories CRUD WORKING!!!!!
+//categories CRUD joi WORKING!!!!!
 router.post("/new/category", CategoriesController.createCategory);
 router.get("/get/category", CategoriesController.getCategories);
 router.get("/:id/get/category", CategoriesController.getCategoryById);
@@ -58,12 +58,13 @@ router.put("/:id/update/category", CategoriesController.updateCat);
 router.delete("/:id/delete/category", CategoriesController.deleteCat);
  
  //products CRUD WORKING!!!!!
+router.post("/new/product", CategoriesController.createProduct);
 router.get("/get/product", CategoriesController.getProducts);
 router.get("/:id/get/product", CategoriesController.getProductById);
 router.put("/:id/update/product", CategoriesController.updateProd);
 router.delete("/:id/delete/product", CategoriesController.deleteProd);
 
-//orders CRUD WORKING!!!!!
+//orders CRUD joi WORKING!!!!!
 router.post("/new/order", OrdersController.newOrder);
 router.get("/get/order", OrdersController.getOrders);
 router.get("/:id/get/order", OrdersController.getOrderById);
@@ -79,7 +80,7 @@ router.put("/:id/update/orderprod", OrderProductController.updateOrderProd);
 router.delete("/:id/delete/orderprod", OrderProductController.deleteOrderProd);
 */
 
-//Cart CRUD WORKING!!!!!
+//Cart CRUD joi WORKING!!!!!
 router.post("/new/cart", CartController.createCart);
 router.get("/get/cart", CartController.getCart);
 router.get("/:id/get/cart", CartController.getCartById);
@@ -87,14 +88,14 @@ router.put("/:id/update/cart", CartController.updateCart);
 router.delete("/:id/delete/cart", CartController.deleteCart);
 
 
-//Chip CRUD WORKING!!!!!
+//Chip CRUD joi WORKING!!!!!
 router.post("/new/chip", ChipController.createChip);
 router.get("/get/chip", ChipController.getChip);
 router.get("/:id/get/chip", ChipController.getChipById);
 router.put("/:id/update/chip", ChipController.updateChip);
 router.delete("/:id/delete/chip", ChipController.deleteChip);
 
-//pets CRUD WORKING!!!!!
+//pets CRUD joi WORKING!!!!!
 router.post("/new/pet", PetsController.createPet);
 router.get("/get/pet", PetsController.getPets);
 router.get("/:id/get/pet", PetsController.getPetById);
@@ -111,7 +112,7 @@ router.get("/:id/get/vet", VetBookingController.getVetById);
 router.put("/:id/update/vet", VetBookingController.updateVet);
 router.delete("/:id/delete/vet", VetBookingController.deleteVet);
 
-//booking CRUD      WORKING!!!!!!!!
+//booking CRUD with joi WORKING!!!!!!!!
 router.post("/new/booking", VetBookingController.createBooking);
 router.get("/get/booking", VetBookingController.getBookings);
 router.get("/:id/get/booking", VetBookingController.getBookingById);

@@ -27,15 +27,17 @@ const vetSchema = new Schema({
 
 const vet = mongoose.model("vet", vetSchema);
 
-const validate = (vet) => {
-    const schema = Joi.object({
+ 
+    const vetJoischema = Joi.object({
         name: Joi.string(),
         email: Joi.string().email(),
         address: Joi.string(),
         phone: Joi.number(),
         syndicateCard: Joi.string(),
     });
-    return schema.validate(vet);
+    const vetValidate = (vet) => {
+        return vetJoischema.validate(vet);
+
 };
 
-module.exports = { vet, validate };
+module.exports = { vet, vetValidate };

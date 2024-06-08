@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
-const {order} = require("../models/order")
+const {order, orderValidate} = require("../models/order")
 const {user}  = require("../models/user")
 const { ObjectId } = require('mongodb')
 
@@ -10,15 +10,24 @@ const { ObjectId } = require('mongodb')
 
 // Create a new order
 exports.newOrder = async(req,res)=>{
-    const { date, type, quantity, status, user} = req.body;
+    const {  type, quantity, status, user, product} = req.body;
+    const { error } = orderValidate({ type, quantity, status, user, product});
+    if (error) return res.status(400).send(error.details[0].message);
+
     const createOrder = new order({
-        date,
         type,
         quantity,
         status,
         user,
+        product,
       });
-  
+  /*
+      const existingUser = await order.findOne({  products });
+
+    if (existingUser) {
+      return res.status(400).json({ message: "products already ordered" });
+    };
+    */
       await createOrder.save();
 
       res.json(createOrder)

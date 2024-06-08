@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
-const {cart}  = require("../models/cart")
+const {cart, cartValidate}  = require("../models/cart")
 const { ObjectId } = require('mongodb')
 
 
@@ -9,14 +9,22 @@ const { ObjectId } = require('mongodb')
 
 // Create a new cart
 exports.createCart = async(req,res)=>{
-    const { date, type, quantity, status } = req.body;
-    const newCart = new cart({
-        date, 
+    const { type, quantity, status, products } = req.body;
+    const { error } = cartValidate({ type, quantity, status, products});
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const newCart = new cart({ 
         type,
         quantity,
         status,
+        products,
       });
   
+      const existingUser = await cart.findOne({  products });
+
+    if (existingUser) {
+      return res.status(400).json({ message: "products already ordered" });
+    };
       await newCart.save();
 
       res.json(newCart)

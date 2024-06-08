@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Joi = require("joi");
 const { ObjectId } = require('mongodb');
+const { user } = require("./user");
+ 
 
 const petSchema = new Schema({
     name: {
@@ -36,17 +38,19 @@ const petSchema = new Schema({
 
 const pet = mongoose.model("pet", petSchema);
 
-const petValidate  = (pet) => {
-    const schema = Joi.object({
+ 
+    const petJoischema = Joi.object({
         name: Joi.string().required(),
         ownershipCertificate: Joi.string().required(),
-        gender: Joi.number().required(),
-        age: Joi.string().required(),
+        gender: Joi.string().required(),
+        age: Joi.number().required(),
         breed: Joi.string().required(),
         type: Joi.string().required(),
-        vaccination: Joi.string().required(),
+        vaccination: Joi.number().required(),
+        user: Joi.string().required(),
     });
-    return schema.petValidate(pet);
+    const petValidate  = (pet) => {
+    return petJoischema.validate(pet);
 };
 
 module.exports = { pet, petValidate };

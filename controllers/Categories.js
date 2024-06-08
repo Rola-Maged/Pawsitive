@@ -1,8 +1,8 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
-const category  = require("../models/category");
-const { product } = require("../models/product");
+const {category,categoryValidate}  = require("../models/category");
+const { product, productValidate } = require("../models/product");
 const { ObjectId } = require('mongodb');
 const { user } = require("../models/user");
 const { shop } = require("../models/shop");
@@ -51,7 +51,10 @@ exports.displayAccessory = async(req,res)=>{
 
 // Create a new product
 exports.createProduct = async(req,res)=>{
-    const { name, code, details, price, quantity, rating, review, type, image, subscription, color, gender, breed, age, material, category } = req.body;
+    const { name, code, details, price, quantity, rating, review, type, image, subscription, color, gender, breed, age, material, category, sustainable } = req.body;
+    const { error } = productValidate({ name, code, details, price, quantity, rating, review, type, image, subscription, color, gender, breed, age, material, category, sustainable});
+    if (error) return res.status(400).send(error.details[0].message);
+
     const newProduct = new product({
         name,
         code,
@@ -69,8 +72,15 @@ exports.createProduct = async(req,res)=>{
         age,
         material,
         category,
+        sustainable,
       });
-  
+  /*
+      const existingUser = await product.findOne({  products });
+
+    if (existingUser) {
+      return res.status(400).json({ message: "products already ordered" });
+    };
+    */
       await newProduct.save();
 
       res.json(newProduct)
@@ -175,6 +185,9 @@ exports.filterProducts = async(req,res)=>{
 // Create a new category
 exports.createCategory = async (req, res) => {
     const { name, typeName } = req.body;
+    const { error } = categoryValidate({ name, typeName});
+    if (error) return res.status(400).send(error.details[0].message);
+
     try {
         const newCategory = new category({ name, typeName });
         await newCategory.save();
@@ -182,6 +195,16 @@ exports.createCategory = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
+/*
+    const existingUser = await cart.findOne({  products });
+
+    if (existingUser) {
+      return res.status(400).json({ message: "products already ordered" });
+    };
+      await newCart.save();
+
+      res.json(newCart)
+*/
 };
 
 // Get all categories

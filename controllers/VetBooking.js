@@ -81,10 +81,12 @@ exports.deleteVet = async (req, res) => {
 
 // Create a new booking
 exports.createBooking = async(req,res)=>{
-    const { date, status, verificationNumber, vet, user } = req.body;
-    BookingValidate()
+    const { status, verificationNumber, vet, user } = req.body;
+    const { error } = BookingValidate({  status, verificationNumber, vet, user });
+    if (error) return res.status(400).send(error.details[0].message);
+
     const newBooking = new booking({
-        date,
+        
         status,
         verificationNumber,
         vet,
@@ -92,6 +94,12 @@ exports.createBooking = async(req,res)=>{
          
     });
   
+    const existingUser = await booking.findOne({  verificationNumber });
+
+    if (existingUser) {
+      return res.status(400).json({ message: " Verification Number Already used" });
+    };
+
       await newBooking.save();
 
       res.json(newBooking)

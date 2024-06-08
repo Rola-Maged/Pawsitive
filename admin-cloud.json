@@ -1,0 +1,15 @@
+{
+    "include": [
+      "public",
+      "dist",
+      "src",
+      ".env",
+      "package.json",
+      "tsconfig.json",
+      "package.lock",
+      "adminjs-cloud create --name=<string> --database=<string> --apiKey=<string> --apiSecret=<string"
+    ]
+  }
+
+   
+   

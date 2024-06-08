@@ -29,8 +29,8 @@ const shopSchema = new Schema({
 
 const shop = mongoose.model("shop", shopSchema);
 
-const validate = (shop) => {
-    const schema = Joi.object({
+ 
+    const shopJoischema = Joi.object({
         name: Joi.string().required(),
         email: Joi.string().email().required(),
         password: Joi.string().required(),
@@ -39,8 +39,9 @@ const validate = (shop) => {
         taxRegister: Joi.string().required(),
         offerings: Joi.string().required(),
     });
-    return schema.validate(shop);
+    const shopValidate = (shop) => {
+        return shopJoischema.validate(shop);
 };
 
-module.exports = { shop, validate };
+module.exports = { shop, shopValidate };
 

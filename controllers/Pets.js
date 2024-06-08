@@ -11,23 +11,33 @@ const {user} = require("../models/user")
 // Create a new pet
 exports.createPet = async(req,res)=>{
     const { name, ownershipCertificate, gender, breed, age, type, vaccination, user } = req.body;
-    petValidate()
+    const { error } = petValidate({ name, ownershipCertificate, gender, breed, age, type, vaccination, user });
+    if (error) return res.status(400).send(error.details[0].message);
+
     const newPet = new pet({
         name,
-        ownershipCertificate, 
+        ownershipCertificate,
         gender,
-        breed, 
-        age, 
+        breed,
+        age,
         type,
         vaccination,
         user,
-      });
-  
-      await newPet.save();
+    });
 
-      res.json(newPet)
 
-}
+    const existingUser = await pet.findOne({ ownershipCertificate });
+
+    if (existingUser) {
+      return res.status(400).json({ message: " Ownership Certificate Already Exists" });
+    };
+
+    await newPet.save();
+    res.json(newPet);
+
+
+};
+ 
 
 
 // Get all pets

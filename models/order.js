@@ -7,20 +7,17 @@ const productSchema = require("./product");
 const orderSchema = new Schema({
     date: {
         type: Date,
-        required: true,
         default: Date.now,
     },
     type: {
         type: String,
-        required: true,
     },
     quantity: {
         type: String,
-        required: true,
+
     },
     status: {
         type: String,
-        required: true,
     },
     user: {
         type: ObjectId,
@@ -33,14 +30,15 @@ const orderSchema = new Schema({
 
 const order = mongoose.model("order", orderSchema);
 
-const validate = (order) => {
-    const schema = Joi.object({
-        date: Joi.date().required(),
+    const orderJoischema = Joi.object({
         type: Joi.string().required(),
         quantity: Joi.number().required(),
         status: Joi.string().required(),
+        user: Joi.string().required(),
+        product: Joi.string().required(),
     });
-    return schema.validate(order);
+    const orderValidate = (order) => {
+        return orderJoischema.validate(order);
 };
 
-module.exports = { order, validate };
+module.exports = { order, orderValidate };

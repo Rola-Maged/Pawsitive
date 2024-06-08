@@ -25,14 +25,16 @@ const cartSchema = new Schema({
 
 const cart = mongoose.model("cart", cartSchema);
 
-const cartValidate = (cart) => {
-    const schema = Joi.object({
-        date: Joi.date().required(),
+ 
+    const cartJoischema = Joi.object({
         type: Joi.string().required(),
         quantity: Joi.number().required(),
         status: Joi.string().required(),
+        products: Joi.string().required(),
     });
-    return schema.cartValidate(cart);
+     
+    const cartValidate = (cart) => {
+      return cartJoischema.validate(cart);
 };
 
 module.exports = { cart, cartValidate };
