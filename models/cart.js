@@ -27,7 +27,6 @@ const cart = mongoose.model("cart", cartSchema);
 
  
     const cartJoischema = Joi.object({
-        type: Joi.string().required(),
         quantity: Joi.number().required(),
         status: Joi.string().required(),
         products: Joi.string().required(),

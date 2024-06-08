@@ -9,12 +9,11 @@ const { ObjectId } = require('mongodb')
 
 // Create a new cart
 exports.createCart = async(req,res)=>{
-    const { type, quantity, status, products } = req.body;
-    const { error } = cartValidate({ type, quantity, status, products});
+    const { quantity, status, products } = req.body;
+    const { error } = cartValidate({ quantity, status, products});
     if (error) return res.status(400).send(error.details[0].message);
 
     const newCart = new cart({ 
-        type,
         quantity,
         status,
         products,
