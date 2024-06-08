@@ -21,6 +21,7 @@ const cart = mongoose.model("cart", cartSchema);
  
     const cartJoischema = Joi.object({
         quantity: Joi.number().required(),
+        products: Joi.string().required(),
     });
      
     const cartValidate = (cart) => {
