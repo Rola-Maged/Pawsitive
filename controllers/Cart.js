@@ -33,8 +33,15 @@ exports.createCart = async(req,res)=>{
 // Get all carts
 exports.getCart = async (req, res) => {
     try {
-        const Carts = await cart.find().populate('product');
-        res.status(200).json(Carts);
+        // Find carts where the products array is not empty
+        const cartsWithProducts = await cart.find({ products: { $exists: true, $not: { $size: 0 } } })
+                                            .populate('products');
+
+        if (!cartsWithProducts) {
+            return res.status(404).json({ message: "No carts with products found" });
+        }
+
+        res.status(200).json(cartsWithProducts);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
